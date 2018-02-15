@@ -31,4 +31,10 @@ devtools::install_github("tkhdyanagi/panelhetero", build_vignettes = TRUE)
 
 # See also
 
-1. See the package vignette by `vignette("panelhetero")` for details.
+1. For details, see the package vignette by the following code.
+
+```{r, eval = FALSE}
+library("panelhetero")
+vignette("panelhetero")
+```
+
