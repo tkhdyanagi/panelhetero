@@ -1,0 +1,34 @@
+---
+output:
+  md_document:
+    variant: markdown_github
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+```
+
+# panelhetero
+
+This package contains functions to examine the properties of heterogeneity acorss cross-sectional units based on panel data.
+The procedures are developed by Okui and Yanagi (2017, 2018).
+
+
+# Intsallation
+
+Run the following code to install the package.
+
+```{r, eval = FALSE}
+install.packages("devtools")  # if needed
+devtools::install_github("tkhdyanagi/panelhetero", build_vignettes = TRUE)
+```
+
+# See also
+
+1. See the package vignette by `vignette("panelhetero")` for details.
