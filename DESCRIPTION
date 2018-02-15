@@ -21,5 +21,3 @@ Imports: boot,
     Rearrangement,
     stats
 VignetteBuilder: knitr
-URL: https://github.com/tkhdyanagi/panelhetero
-BugReports: https://github.com/tkhdyanagi/panelhetero/issues
