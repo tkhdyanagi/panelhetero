@@ -54,13 +54,14 @@ nemoment <- function(data, acov_order = 0, acor_order = 1, R = 1000) {
                        "cor(mean, acov)", "cor(mean, acor)", "cor(acov, acor)")
 
   # standard errors
-  temp <- t(t(bootstrap$t) - bootstrap$t0)
+  temp <- t( t(bootstrap$t) – colMeans(bootstrap$t) )
   se <- sqrt(colMeans(temp * temp))
   names(se) <- c("E(mean)", "E(acov)", "E(acor)",
                  "var(mean)", "var(acov)", "var(acor)",
                  "cor(mean, acov)", "cor(mean, acor)", "cor(acov, acor)")
 
   # confidence intervals
+  temp <- t(t(bootstrap$t) - bootstrap$t0)
   quantiles <- apply(temp, MARGIN = 2, quantile, probs = c(0.025, 0.975))
   ci <- cbind(estimate + quantiles[1, ], estimate + quantiles[2, ])
   rownames(ci) <- c("E(mean)", "E(acov)", "E(acor)",
