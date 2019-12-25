@@ -2,7 +2,7 @@
 #'
 #' \code{nekd} implements the naive estimation of the kernel density
 #' for the heterogeneous mean, autocovariance, and autocorrelation.
-#' The procedure is proposed in Okui and Yanagi (2018).
+#' The procedure is proposed in Okui and Yanagi (2019).
 #' See the package vignette via \code{vignette("panelhetero")} for details.
 #'
 #' @param data matrix of panel data in which each row is individual time series
@@ -80,7 +80,7 @@ nekd <- function(data, acov_order = 0, acor_order = 1, mean_bw = NULL, acov_bw =
   acor_plot <- ggplot(data = data.frame(x = acor_lim), aes(x = x))
   acor_plot <- acor_plot + stat_function(fun = kdest, args = list(X = acor_est, h = acor_bw))
   acor_plot <- acor_plot + labs(x = "x", y = "")
-
+ 
   # functions
   mean_func <- function(x) {
     kdest(x = x, X = mean_est, h = mean_bw)
@@ -126,3 +126,4 @@ kdest <- Vectorize(FUN = function(x, X, h) {
   return(est)
 
 }, vectorize.args = "x")
+

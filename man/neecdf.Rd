@@ -4,7 +4,7 @@
 \alias{neecdf}
 \title{Empirical CDF estimation for heterogeneity in panel data without bias-correction}
 \usage{
-neecdf(data, acov_order = 0, acor_order = 1)
+neecdf(data, acov_order = 0, acor_order = 1, R = 1000, ci = TRUE)
 }
 \arguments{
 \item{data}{matrix of panel data in which each row is individual time series}
@@ -12,6 +12,10 @@ neecdf(data, acov_order = 0, acor_order = 1)
 \item{acov_order}{non-negative integer for the order of the autocovariance}
 
 \item{acor_order}{positive integer for the order of the autocorrelation}
+
+\item{R}{positive integer for the number of bootstrap replications}
+
+\item{ci}{bool for the confidence interval}
 }
 \value{
 list that contains the following elements.
@@ -21,15 +25,19 @@ list that contains the following elements.
 \item{mean_func}{function that returns naive empirical CDF estimates for the mean}
 \item{acov_func}{function that returns naive empirical CDF estimates for the autocovariance}
 \item{acor_func}{function that returns naive empirical CDF estimates for the autocorrelation}
+\item{mean_ci_func}{function that returns 95 percent bootstrap confidence interval for naive empirical CDF estimates for the mean}
+\item{acov_ci_func}{function that returns 95 percent bootstrap confidence interval for naive empirical CDF estimates for the autocovariance}
+\item{acor_ci_func}{function that returns 95 percent bootstrap confidence interval for naive empirical CDF estimates for the autocorrelation}
 \item{quantity}{matrix that contains the estimated quantities}
 \item{acov_order}{the same as the argument}
 \item{acor_order}{the same as the argument}
 \item{N}{the number of cross-sectional units}
 \item{S}{the length of time series}
+\item{R}{the number of bootstrap replications}
 }
 \description{
 \code{neecdf} implements the naive estimation of the empirical CDF
 for the heterogeneous mean, autocovariance, and autocorrelation.
-The procedure is proposed in Okui and Yanagi (2017).
+The procedure is proposed in Okui and Yanagi (2019).
 See the package vignette via \code{vignette("panelhetero")} for details.
 }

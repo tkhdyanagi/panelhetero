@@ -30,6 +30,6 @@ list that contains the following elements.
 \description{
 \code{hpjmoment} implements the HPJ bias-corrected estimation of the moments
 for the heterogeneous mean, autocovariance, and autocorrelation.
-The procedure is proposed in Okui and Yanagi (2017).
+The procedure is proposed in Okui and Yanagi (2019).
 See the package vignette via \code{vignette("panelhetero")} for details.
 }

@@ -391,6 +391,3 @@ expect_error(hpjkcdf(data = y, acov_order = 0, acor_order = 1, mean_bw = 0.1, ac
 expect_error(hpjkcdf(data = y, acov_order = 0, acor_order = 1, mean_bw = 0.1, acov_bw = 0.1, acor_bw = y))
 
 expect_error(hpjkcdf(data = y, acov_order = 0, acor_order = 1, mean_bw = 0.1, acov_bw = 0.1, acor_bw = "x"))
-
-
-

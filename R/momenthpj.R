@@ -2,7 +2,7 @@
 #'
 #' \code{hpjmoment} implements the HPJ bias-corrected estimation of the moments
 #' for the heterogeneous mean, autocovariance, and autocorrelation.
-#' The procedure is proposed in Okui and Yanagi (2017).
+#' The procedure is proposed in Okui and Yanagi (2019).
 #' See the package vignette via \code{vignette("panelhetero")} for details.
 #'
 #' @param data matrix of panel data in which each row is individual time series
@@ -11,7 +11,7 @@
 #' @param R positive integer for the number of bootstrap replications
 #'
 #' @importFrom boot boot
-#' @importFrom stats na.omit quantile
+#' @importFrom stats na.omit quantile sd
 #'
 #' @return list that contains the following elements.
 #' \item{estimate}{vector of estimates of the parameters}
@@ -107,13 +107,13 @@ hpjmoment <- function(data, acov_order = 0, acor_order = 1, R = 1000) {
                        "cor(mean, acov)", "cor(mean, acor)", "cor(acov, acor)")
 
   # standard errors
-  temp <- t(t(bootstrap$t) - bootstrap$t0)
-  se <- sqrt(colMeans(temp * temp))
+  se <- apply(bootstrap$t, MARGIN = 2, sd)
   names(se) <- c("E(mean)", "E(acov)", "E(acor)",
                  "var(mean)", "var(acov)", "var(acor)",
                  "cor(mean, acov)", "cor(mean, acor)", "cor(acov, acor)")
 
   # confidence intervals
+  temp <- t(t(bootstrap$t) - bootstrap$t0)
   quantiles <- apply(temp, MARGIN = 2, quantile, probs = c(0.025, 0.975))
   ci <- cbind(estimate + quantiles[1, ], estimate + quantiles[2, ])
   rownames(ci) <- c("E(mean)", "E(acov)", "E(acor)",

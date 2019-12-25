@@ -2,7 +2,7 @@
 #'
 #' \code{nekcdf} implements the naive estimation of the kernel CDF
 #' for the heterogeneous mean, autocovariance, and autocorrelation.
-#' The procedure is proposed in Okui and Yanagi (2018).
+#' The procedure is proposed in Okui and Yanagi (2019).
 #' See the package vignette via \code{vignette("panelhetero")} for details.
 #'
 #' @param data matrix of panel data in which each row is individual time series

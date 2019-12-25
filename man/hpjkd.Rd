@@ -4,8 +4,14 @@
 \alias{hpjkd}
 \title{HPJ bias-corrected kernel density estimation for heterogeneity in panel data}
 \usage{
-hpjkd(data, acov_order = 0, acor_order = 1, mean_bw = NULL,
-  acov_bw = NULL, acor_bw = NULL)
+hpjkd(
+  data,
+  acov_order = 0,
+  acor_order = 1,
+  mean_bw = NULL,
+  acov_bw = NULL,
+  acor_bw = NULL
+)
 }
 \arguments{
 \item{data}{matrix of panel data in which each row is individual time series}
@@ -39,6 +45,6 @@ list that contains the following elements.
 \code{hpjkd} implements the HPJ bias-corrected estimation of
 the kernel density for the heterogeneous mean, autocovariance,
 and autocorrelation.
-The procedure is proposed in Okui and Yanagi (2018).
+The procedure is proposed in Okui and Yanagi (2019).
 See the package vignette via \code{vignette("panelhetero")} for details.
 }
