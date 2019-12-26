@@ -13,7 +13,7 @@ Intsallation
 Run the following code to install the package.
 
 ``` r
-install.packages("devtools")  # if needed
+install.packages(c("devtools", "knitr", "rmarkdown")) # if needed
 devtools::install_github("tkhdyanagi/panelhetero", build_vignettes = TRUE)
 ```
 

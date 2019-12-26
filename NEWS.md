@@ -1,3 +1,7 @@
+# panelhetero 0.2.1
+
+* Updated vignettes and README.
+
 # panelhetero 0.2.0
 
 ## Major changes

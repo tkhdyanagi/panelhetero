@@ -23,14 +23,10 @@ The package implements model-free procedures proposed by Okui and Yanagi (2019a,
 Let $\{ \{ y_{it} \}_{t=1}^T \}_{i=1}^N$ be balanced panel data where $y_{it}$ is a scalar random variable, $N$ is the number of cross-sectional units, and $T$ is the length of time series.
 We assume that the individual time series $\{ y_{it} \}_{t=1}^T$ is strictly stationary across time but heterogeneous acorss units.
 
-To examine the properties of heterogeneity, we focus on estimating the cumulative distribution function (CDF), density, and moments (i.e., the means, variances, and correlations) of the heterogeneous mean, $k$-th autocovariance, and $k$-th autocorrelation:
-\begin{align*}
-  \mu_i = E(y_{it}|i),
-  \qquad
-  \gamma_{k,i} = E[(y_{it} - \mu_i)(y_{i,t-k} - \mu_i)|i],
-  \qquad 
-  \rho_{k,i} = \frac{\gamma_{k,i}}{\gamma_{0,i}},
-\end{align*}
+To examine the properties of heterogeneity, we focus on estimating the cumulative distribution function (CDF), density, and moments (i.e., the means, variances, and correlations) of the heterogeneous mean, $k$-th autocovariance, and $k$-th autocorrelation: 
+
+$\mu_i = E(y_{it}|i)$, $\gamma_{k,i} = E[(y_{it} - \mu_i)(y_{i,t-k} - \mu_i)|i]$, and $\rho_{k,i} = \gamma_{k,i}/\gamma_{0,i}$, 
+
 where $E(\cdot|i)$ indicates the population mean for the individual time series.
 In words, $\mu_i$, $\gamma_{k,i}$, and $\rho_{k,i}$ are the population mean, $k$-th autocovariance, and $k$-th autocorrelation for the individual time series.
 Note that $\gamma_{0, i}$ is the variance.
@@ -38,13 +34,11 @@ They are random variables as discussed in Okui and Yanagi (2019a, 2019b).
 We assume that they are i.i.d. across units.
 
 The estimators of $\mu_i$, $\gamma_{k,i}$, $\rho_{k,i}$ are given by the sample analogues:
-\begin{align*}
-  \hat \mu_i = \frac{1}{T} \sum_{t=1}^T y_{it},
-  \qquad
-  \hat \gamma_{k,i} = \frac{1}{T-k} \sum_{t=k+1}^T (y_{it} - \hat \mu_i)(y_{i,t-k} - \hat \mu_i),
-  \qquad 
-  \hat \rho_{k,i} = \frac{\hat \gamma_{k,i}}{\hat \gamma_{0,i}}.
-\end{align*}
+
+$\hat \mu_i = \frac{1}{T} \sum_{t=1}^T y_{it}$,
+$\hat \gamma_{k,i} = \frac{1}{T-k} \sum_{t=k+1}^T (y_{it} - \hat \mu_i)(y_{i,t-k} - \hat \mu_i)$,
+and
+$\hat \rho_{k,i} = \hat \gamma_{k,i} / \hat \gamma_{0,i}$.
 
 For $\xi_i = \mu_i$, $\gamma_{k,i}$, and $\rho_{k,i}$, the parameters of interest are the CDF $F_{\xi}(\cdot) = \Pr(\xi_i \le \cdot)$, the density $f_{\xi}(\cdot)$, the mean $E(\xi_i)$, the variance $var(\xi_i)$, and the correlations such as $cor(\mu_i, \gamma_{k,i})$.
 
@@ -81,11 +75,10 @@ In the following, we explain the arguments and the returned values of each funct
 
 `nemoment` implements the naive estimation for the moments without bias-correction.
 The parameters are the means, variances, and correlations:
-\begin{align*}
-  & E(\mu_i), \qquad E(\gamma_{k,i}), \qquad E(\rho_{k,i}),\\
-  & var(\mu_i), \qquad var(\gamma_{k,i}), \qquad var(\rho_{k,i}),\\
-  & cor(\mu_i, \gamma_{k,i}), \qquad cor(\mu_i, \rho_{k,i}), \qquad cor(\gamma_{k,i}, \rho_{k,i}).
-\end{align*}
+
+$E(\mu_i)$, $E(\gamma_{k,i})$, $E(\rho_{k,i})$,
+$var(\mu_i)$, $var(\gamma_{k,i})$, $var(\rho_{k,i})$,
+$cor(\mu_i, \gamma_{k,i})$, $cor(\mu_i, \rho_{k,i})$, and $cor(\gamma_{k,i}, \rho_{k,i})$.
 
 The usage is `nemoment(data, acov_order = 0, acor_order = 1, R = 1000)` where the arguments are as follows.
 

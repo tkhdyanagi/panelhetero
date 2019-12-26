@@ -1,7 +1,7 @@
 Package: panelhetero
 Type: Package
 Title: Panel Data Analysis for Heterogeneous Dynamics
-Version: 0.2.0
+Version: 0.2.1
 Authors@R: c(
     person("Ryo", "Okui", email = "okuiryo@snu.ac.kr", role = "aut"),
     person("Takahide", "Yanagi", email = "yanagi@econ.kyoto-u.ac.jp", role = c("aut", "cre")),
