@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 # panelhetero
 
 This package contains functions to examine the degree of heterogeneity acorss cross-sectional units based on panel data.
-The procedures are developed by Okui and Yanagi (2019a, 2019b).
+The procedures are developed by Okui and Yanagi (2019, 2020).
 
 
 # Intsallation

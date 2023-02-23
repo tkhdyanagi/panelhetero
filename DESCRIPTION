@@ -1,7 +1,7 @@
 Package: panelhetero
 Type: Package
 Title: Panel Data Analysis for Heterogeneous Dynamics
-Version: 0.2.1
+Version: 0.3.0
 Authors@R: c(
     person("Ryo", "Okui", email = "okuiryo@snu.ac.kr", role = "aut"),
     person("Takahide", "Yanagi", email = "yanagi@econ.kyoto-u.ac.jp", role = c("aut", "cre")),
@@ -13,11 +13,10 @@ LazyData: true
 Suggests: testthat,
     knitr,
     rmarkdown
-RoxygenNote: 7.0.2
+RoxygenNote: 7.2.3
 License: MIT + file LICENSE
 Imports: boot,
     ggplot2,
-    kerdiest,
     KernSmooth,
     Rearrangement,
     stats

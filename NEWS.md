@@ -1,3 +1,7 @@
+# panelhetero 0.3.0
+
+* The functions `nekcdf`, `hpjkcdf`, and `tojkcdf` were removed because the package `kerdiest` used in these functions was removed from CRAN.
+
 # panelhetero 0.2.1
 
 * Updated vignettes and README.
