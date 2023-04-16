@@ -2,25 +2,28 @@
 % Please edit documentation in R/densityhpj.R
 \name{hpjkdest2}
 \alias{hpjkdest2}
-\title{computing HPJ kernel density estimate for odd T}
+\title{Compute HPJ kernel density estimates for odd T}
 \usage{
 hpjkdest2(x, X, X1, X2, X3, X4, h)
 }
 \arguments{
-\item{x}{point at which the density is estimated}
+\item{x}{An evaluation point}
 
-\item{X}{vector of original cross-sectional data}
+\item{X}{A vector of cross-sectional data}
 
-\item{X1}{vector of half-panel cross-sectional data based on time series 1 ~ floor(T/2)}
+\item{X1}{A vector of half-panel cross-sectional data 1}
 
-\item{X2}{vector of half-panel cross-sectional data based on time series (floor(T/2) + 1) ~ T}
+\item{X2}{A vector of half-panel cross-sectional data 2}
 
-\item{X3}{vector of half-panel cross-sectional data based on time series 1 ~ ceiling(T/2)}
+\item{X3}{A vector of half-panel cross-sectional data 3}
 
-\item{X4}{vector of half-panel cross-sectional data based on time series (ceiling(T/2) + 1) ~ T}
+\item{X4}{A vector of half-panel cross-sectional data 4}
 
-\item{h}{bandwidth}
+\item{h}{A scalar of bandwidth}
+}
+\value{
+A vector of kernel density estimates
 }
 \description{
-computing HPJ kernel density estimate for odd T
+Compute HPJ kernel density estimates for odd T
 }

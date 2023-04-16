@@ -1,87 +1,138 @@
-#' Kernel density estimation for heterogeneity in panel data without bias-correction
+#' The naive kernel density estimation
 #'
-#' \code{nekd} implements the naive estimation of the kernel density
-#' for the heterogeneous mean, autocovariance, and autocorrelation.
-#' The procedure is proposed in Okui and Yanagi (2019).
-#' See the package vignette via \code{vignette("panelhetero")} for details.
+#' The `nekd()` function enables to implement the naive kernel density
+#' estimation without bias correction for the heterogeneous mean,
+#' the autocovariance, and the autocorrelation.
+#' The method is developed by Okui and Yanagi (2020).
+#' For more details, see the package vignette with `vignette("panelhetero")`.
 #'
-#' @param data matrix of panel data in which each row is individual time series
-#' @param acov_order non-negative integer for the order of the autocovariance
-#' @param acor_order positive integer for the order of the autocorrelation
-#' @param mean_bw bandwidth for the mean
-#' @param acov_bw bandwidth for the autocovariance
-#' @param acor_bw bandwidth for the autocorrelation
+#' @param data A matrix of panel data.
+#' Each row corresponds to individual time series.
+#' @param acov_order A non-negative integer of the order of autocovariance.
+#' Default is 0.
+#' @param acor_order A positive integer of the order of autocorrelation.
+#' Default is 1.
+#' @param mean_bw A scalar of bandwidth used for the estimation of
+#' the denisty of mean.
+#' Default is NULL, and the plug-in bandwidth is used.
+#' @param acov_bw A scalar of bandwidth used for the estimation of
+#' the denisty of autocovariance.
+#' Default is NULL, and the plug-in bandwidth is used.
+#' @param acor_bw A scalar of bandwidth used for the estimation of
+#' the denisty of autocorrelation.
+#' Default is NULL, and the plug-in bandwidth is used.
 #'
-#' @import ggplot2
-#' @importFrom KernSmooth dpik
-#' @importFrom stats na.omit
+#' @returns A list that contains the following elements:
+#' \item{mean}{A plot of the corresponding density}
+#' \item{acov}{A plot of the corresponding density}
+#' \item{acor}{A plot of the corresponding density}
+#' \item{mean_func}{A function that returns the corresponding density}
+#' \item{acov_func}{A function that returns the corresponding density}
+#' \item{acor_func}{A function that returns the corresponding density}
+#' \item{bandwidth}{A Vector of the bandwidths}
+#' \item{quantity}{A matrix of the estimated heterogeneous quantities}
+#' \item{acov_order}{The order of autocovariance}
+#' \item{acor_order}{The order of autocorrelation}
+#' \item{N}{The number of cross-sectional units}
+#' \item{S}{The length of time series}
 #'
-#' @return list that contains the following elements.
-#' \item{mean}{graph of the naive kernel density estimation for the mean}
-#' \item{acov}{graph of the naive kernel density estimation for the autocovariance}
-#' \item{acor}{graph of the naive kernel density estimation for the autocorrelation}
-#' \item{mean_func}{function that returns naive kernel density estimates for the mean}
-#' \item{acov_func}{function that returns naive kernel density estimates for the autocovariance}
-#' \item{acor_func}{function that returns naive kernel density estimates for the autocorrelation}
-#' \item{bandwidth}{vector of the selected bandwidths}
-#' \item{quantity}{matrix that contains the estimated quantities}
-#' \item{acov_order}{the same as the argument}
-#' \item{acor_order}{the same as the argument}
-#' \item{N}{the number of cross-sectional units}
-#' \item{S}{the length of time series}
+#' @examples
+#' data <- panelhetero:::simulation(N = 300, S = 50)
+#' panelhetero::nekd(data = data)
+#'
+#' @references Okui, R. and Yanagi, T., 2020.
+#' Kernel estimation for panel data with heterogeneous dynamics.
+#' The Econometrics Journal, 23(1), pp.156-175.
 #'
 #' @export
 #'
-nekd <- function(data, acov_order = 0, acor_order = 1, mean_bw = NULL, acov_bw = NULL, acor_bw = NULL) {
+nekd <- function(data,
+                 acov_order = 0,
+                 acor_order = 1,
+                 mean_bw = NULL,
+                 acov_bw = NULL,
+                 acor_bw = NULL) {
 
-  # initialization
+  # Error handling -------------------------------------------------------------
+
+  error3(data = data,
+         acov_order = acov_order,
+         acor_order = acor_order,
+         mean_bw = mean_bw,
+         acov_bw = acov_bw,
+         acor_bw = acor_bw)
+
+  # variable definitions -------------------------------------------------------
+
   x <- NULL
 
-  # handling errors
-  error3(data = data, acov_order = acov_order, acor_order = acor_order, mean_bw = mean_bw, acov_bw = acov_bw, acor_bw = acor_bw)
+  # Omit NA
+  data <- stats::na.omit(data)
 
-  # omitting NA
-  data <- na.omit(data)
-
-  # sample sizes
+  # Sample size
   N <- nrow(data)
   S <- ncol(data)
 
-  # estimated means, autocovariances, autocorrelations
+  # Estimated means, autocovariances, autocorrelations
   mean_est <- rowMeans(data)
   acov_est <- apply(data, MARGIN = 1, acov, acov_order = acov_order)
   acor_est <- apply(data, MARGIN = 1, acor, acor_order = acor_order)
 
-  # plug-in bandwidths
+  # Plug-in bandwidth
   if (is.null(mean_bw)) {
-    mean_bw <- dpik(x = mean_est, scalest = "minim", kernel = "normal")
+    mean_bw <- KernSmooth::dpik(x = mean_est,
+                                scalest = "minim",
+                                kernel = "normal")
   }
+
   if (is.null(acov_bw)) {
-    acov_bw <- dpik(x = acov_est, scalest = "minim", kernel = "normal")
+    acov_bw <- KernSmooth::dpik(x = acov_est,
+                                scalest = "minim",
+                                kernel = "normal")
   }
+
   if (is.null(acor_bw)) {
-    acor_bw <- dpik(x = acor_est, scalest = "minim", kernel = "normal")
+    acor_bw <- KernSmooth::dpik(x = acor_est,
+                                scalest = "minim",
+                                kernel = "normal")
   }
 
-  # limit for figures by ggplot2
-  mean_lim <- c(min(mean_est), max(mean_est))
-  acov_lim <- c(min(acov_est), max(acov_est))
-  acor_lim <- c(min(acor_est), max(acor_est))
+  # Limits used for ggplot2
+  mean_lim <- c(min(mean_est),
+                max(mean_est))
 
-  # figures by ggplot2
-  mean_plot <- ggplot(data = data.frame(x = mean_lim), aes(x = x))
-  mean_plot <- mean_plot + stat_function(fun = kdest, args = list(X = mean_est, h = mean_bw))
-  mean_plot <- mean_plot + labs(x = "x", y = "")
+  acov_lim <- c(min(acov_est),
+                max(acov_est))
 
-  acov_plot <- ggplot(data = data.frame(x = acov_lim), aes(x = x))
-  acov_plot <- acov_plot + stat_function(fun = kdest, args = list(X = acov_est, h = acov_bw))
-  acov_plot <- acov_plot + labs(x = "x", y = "")
+  acor_lim <- c(min(acor_est),
+                max(acor_est))
 
-  acor_plot <- ggplot(data = data.frame(x = acor_lim), aes(x = x))
-  acor_plot <- acor_plot + stat_function(fun = kdest, args = list(X = acor_est, h = acor_bw))
-  acor_plot <- acor_plot + labs(x = "x", y = "")
- 
-  # functions
+  # Make figures using ggplot2
+  mean_plot <- ggplot2::ggplot(data = data.frame(x = mean_lim),
+                               ggplot2::aes(x = x)) +
+    ggplot2::stat_function(fun = kdest,
+                           args = list(X = mean_est, h = mean_bw)) +
+    ggplot2::labs(x = "x", y = "") +
+    ggplot2::ggtitle("The heterogeneous mean") +
+    ggplot2::theme_bw()
+
+  acov_plot <- ggplot2::ggplot(data = data.frame(x = acov_lim),
+                               ggplot2::aes(x = x)) +
+    ggplot2::stat_function(fun = kdest,
+                           args = list(X = acov_est, h = acov_bw)) +
+    ggplot2::labs(x = "x", y = "") +
+    ggplot2::ggtitle("The heterogeneous autocovariance") +
+    ggplot2::theme_bw()
+
+  acor_plot <- ggplot2::ggplot(data = data.frame(x = acor_lim),
+                               ggplot2::aes(x = x)) +
+    ggplot2::stat_function(fun = kdest,
+                           args = list(X = acor_est, h = acor_bw)) +
+    ggplot2::labs(x = "x", y = "") +
+    ggplot2::ggtitle("The heterogeneous autocorrelation") +
+    ggplot2::theme_bw()
+
+  # Functions
   mean_func <- function(x) {
     kdest(x = x, X = mean_est, h = mean_bw)
   }
@@ -94,36 +145,46 @@ nekd <- function(data, acov_order = 0, acor_order = 1, mean_bw = NULL, acov_bw =
     kdest(x = x, X = acor_est, h = acor_bw)
   }
 
-  # results
-  bandwidth <- c(mean_bw, acov_bw, acor_bw)
-  names(bandwidth) <- c("mean", "autocovariance", "autocorrelation")
-  quantity <- cbind(mean_est, acov_est, acor_est)
-  colnames(quantity) <- c("mean", "autocovariance", "autocorrelation")
-  result <- list(mean = mean_plot, acov = acov_plot, acor = acor_plot,
-                 mean_func = mean_func, acov_func = acov_func, acor_func = acor_func,
-                 bandwidth = bandwidth, quantity = quantity,
-                 acov_order = acov_order, acor_order = acor_order, N = N, S = S)
+  # Results
+  bandwidth <- c(mean_bw,
+                 acov_bw,
+                 acor_bw)
 
-  return(result)
+  quantity <- cbind(mean_est,
+                    acov_est,
+                    acor_est)
+
+  names(bandwidth) <- colnames(quantity) <-
+    c("mean", "autocovariance", "autocorrelation")
+
+  return(list(mean = mean_plot,
+              acov = acov_plot,
+              acor = acor_plot,
+              mean_func = mean_func,
+              acov_func = acov_func,
+              acor_func = acor_func,
+              bandwidth = bandwidth,
+              quantity = quantity,
+              acov_order = acov_order,
+              acor_order = acor_order,
+              N = N,
+              S = S)
+  )
 
 }
 
-
-#' computing kernel density estimate
+#' Compute kernel density estimates
 #'
-#' @param x point at which the density is estimated
-#' @param X vector of cross-sectional data
-#' @param h bandwidth
+#' @param x An evaluation point
+#' @param X A vector of cross-sectional data
+#' @param h A scalar of bandwidth
+#'
+#' @returns A vector of kernel density estimates
 #'
 kdest <- Vectorize(FUN = function(x, X, h) {
 
-  # sample size
   N <- length(X)
-
-  # kernel density estimate
-  est <- sum(dnorm( (x - X) / h)) /  (N * h)
-
+  est <- sum(stats::dnorm((x - X) / h)) / (N * h)
   return(est)
 
 }, vectorize.args = "x")
-

@@ -1,7 +1,7 @@
 ---
-title: "**panelhetero**"
+title: "Getting Started with the panelhetero Package"
 author: "Ryo Okui (okuiryo@e.u-tokyo.ac.jp), Takahide Yanagi (yanagi@econ.kyoto-u.ac.jp), Heejun Lee (info.hlee@gmail.com)"
-date: "February 2023"
+date: "April 2023"
 #documentclass: ltjarticle
 #output: 
 #  pdf_document:
@@ -14,309 +14,367 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-This vignette explains how to use the **panelhetero** package in **R** .
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+options(rmarkdown.html_vignette.check_title = FALSE)
+```
 
-The package implements model-free procedures proposed by Okui and Yanagi (2019, 2020) to examine the degree of heterogeneity across cross-sectional units based on panel data.
+```{r setup, include = FALSE}
+library(panelhetero)
+```
 
-## Setting
+This vignette discusses how to use the **panelhetero** package.
 
-Let $\{ \{ y_{it} \}_{t=1}^T \}_{i=1}^N$ be balanced panel data where $y_{it}$ is a scalar random variable, $N$ is the number of cross-sectional units, and $T$ is the length of time series.
-We assume that the individual time series $\{ y_{it} \}_{t=1}^T$ is strictly stationary across time but heterogeneous acorss units.
+The package enables to estimate the degree of heterogeneity across 
+cross-sectional units in the panel data analysis.
+The methods are developed by the following papers:
 
-To examine the properties of heterogeneity, we focus on estimating the cumulative distribution function (CDF), density, and moments (i.e., the means, variances, and correlations) of the heterogeneous mean, $k$-th autocovariance, and $k$-th autocorrelation: 
+- [Okui and Yanagi (2019) "Panel data analysis with heterogeneous dynamics"](https://doi.org/10.1016/j.jeconom.2019.04.036) 
+- [Okui and Yanagi (2020) "Kernel estimation for panel data with heterogeneous dynamics"](https://doi.org/10.1093/ectj/utz019)
 
-$\mu_i = E(y_{it}|i)$, $\gamma_{k,i} = E[(y_{it} - \mu_i)(y_{i,t-k} - \mu_i)|i]$, and $\rho_{k,i} = \gamma_{k,i}/\gamma_{0,i}$, 
+# Setup
 
-where $E(\cdot|i)$ indicates the population mean for the individual time series.
-In words, $\mu_i$, $\gamma_{k,i}$, and $\rho_{k,i}$ are the population mean, $k$-th autocovariance, and $k$-th autocorrelation for the individual time series.
-Note that $\gamma_{0, i}$ is the variance.
-They are random variables as discussed in Okui and Yanagi (2019, 2020).
-We assume that they are i.i.d. across units.
+Suppose that we have balanced panel data $\{ y_{it} \}$ for $i = 1, \dots, N$ and $t = 1, \dots, T$.
+Here:
 
-The estimators of $\mu_i$, $\gamma_{k,i}$, $\rho_{k,i}$ are given by the sample analogues:
+- $y_{it}$: A scalar random variable for unit $i$ in period $t$.
+- $N$: The number of cross-sectional units.
+- $T$: The length of time series.
 
-$\hat \mu_i = \frac{1}{T} \sum_{t=1}^T y_{it}$,
-$\hat \gamma_{k,i} = \frac{1}{T-k} \sum_{t=k+1}^T (y_{it} - \hat \mu_i)(y_{i,t-k} - \hat \mu_i)$,
-and
-$\hat \rho_{k,i} = \hat \gamma_{k,i} / \hat \gamma_{0,i}$.
+Assume that the individual time series $\{ y_{it} \}$ for $t = 1, \dots, T$ 
+is strictly stationary across time but heterogeneous across units.
 
-For $\xi_i = \mu_i$, $\gamma_{k,i}$, and $\rho_{k,i}$, the parameters of interest are the CDF $F_{\xi}(\cdot) = \Pr(\xi_i \le \cdot)$, the density $f_{\xi}(\cdot)$, the mean $E(\xi_i)$, the variance $var(\xi_i)$, and the correlations such as $cor(\mu_i, \gamma_{k,i})$.
+To examine the degree of heterogeneity, we focus on estimating 
+the cumulative distribution function (CDF), the density function, and the moments 
+(i.e., the means, the variances, and the correlations) of the 
+heterogeneous mean, the $k$-th autocovariance, and the $k$-th autocorrelation: 
 
-Okui and Yanagi (2019) develop empirical distribution estimation of the CDF and the moments of the true $\mu_i$, $\gamma_{k,i}$, and $\rho_{k,i}$ based on the estimated $\hat \mu_i$, $\hat \gamma_{k,i}$, and $\hat \rho_{k,i}$.
-Okui and Yanagi (2020) propose nonparametric kernel smoothing estimation for the density of the true $\mu_i$, $\gamma_{k,i}$, and $\rho_{k,i}$ based on the estimated $\hat \mu_i$, $\hat \gamma_{k,i}$, and $\hat \rho_{k,i}$.
-Further, the papers develop half-panel jaccknife (HPJ) and third-order jackknife (TOJ) bias-correction methods to eliminate asymptotic biases of the estimators and cross-sectional boostrap procedures for statistical inferences.
-Note that HPJ and TOJ require that $T \ge 4$ and that $T \ge 6$, respectively.
-See the papers for more details.
+- $\mu_i = E(y_{it}|i)$,
+- $\gamma_{k,i} = E[(y_{it} - \mu_i)(y_{i,t-k} - \mu_i)|i]$,
+- $\rho_{k,i} = \gamma_{k,i}/\gamma_{0,i}$,
 
-**panelhetero** implements these procedures.
+where $E(\cdot | i)$ denotes the population mean for the individual time series.
+In words, $\mu_i$, $\gamma_{k,i}$, and $\rho_{k,i}$ are the population mean, 
+$k$-th autocovariance, and $k$-th autocorrelation, respectively, 
+for the individual time series.
+Note that $\gamma_{0, i}$ corresponds to the variance.
+These variables are treated as random variables that are i.i.d. across units.
 
+The corresponding estimators are:
 
-## Functions
+- $\hat \mu_i = \frac{1}{T} \sum_{t=1}^T y_{it}$.
+- $\hat \gamma_{k,i} = \frac{1}{T-k} \sum_{t=k+1}^T (y_{it} - \hat \mu_i)(y_{i,t-k} - \hat \mu_i)$.
+- $\hat \rho_{k,i} = \hat \gamma_{k,i} / \hat \gamma_{0,i}$.
 
-**panelhetero** contains the following functions.
+Denoting $\xi_i = \mu_i$, $\gamma_{k,i}$, or $\rho_{k,i}$, the parameters of interest are: 
 
-* `nemoment`: naive estimation for the means, variances, and correlations without bias-correction 
-* `hpjmoment`: HPJ bias-corrected estimation for the means, variances, and correlations 
-* `tojmoment`: TOJ bias-corrected estimation for the means, variances, and correlations 
-* `neecdf`: naive estimation for the empirical CDFs without bias-correction 
-* `hpjecdf`: HPJ bias-corrected estimation for the empirical CDFs
-* `tojecdf`: TOJ bias-corrected estimation for the empirical CDFs
-* `nekd`: naive estimation for the kernel density without bias-correction
-* `hpjkd`: HPJ bias-corrected estimation for the kernel density
-* `tojkd`: TOJ bias-corrected estimation for the kernel density
+- The CDF $F_{\xi}(\cdot) = \Pr(\xi_i \le \cdot)$.
+- The density $f_{\xi}(\cdot)$. 
+- The mean $E(\xi_i)$. 
+- The variance $var(\xi_i)$. 
+- The correlations, such as $cor(\mu_i, \gamma_{k,i})$.
 
-In the following, we explain the arguments and the returned values of each function.
+Okui and Yanagi (2019) propose the empirical distribution estimation of the CDF
+and the moments of the true $\mu_i$, $\gamma_{k,i}$, and $\rho_{k,i}$ 
+based on the estimated $\hat \mu_i$, $\hat \gamma_{k,i}$, and $\hat \rho_{k,i}$.
+Okui and Yanagi (2020) propose the nonparametric kernel smoothing estimation 
+for the density of the true $\mu_i$, $\gamma_{k,i}$, and $\rho_{k,i}$ 
+based on the estimated $\hat \mu_i$, $\hat \gamma_{k,i}$, and $\hat \rho_{k,i}$.
+Since these estimators have asymptotic biases, the papers propose 
+the half-panel jaccknife (HPJ) bias correction and 
+the third-order jackknife (TOJ) bias correction.
+In addition, the papers also consider the cross-sectional boostrap procedures 
+for performing statistical inference.
+The HPJ bias correction requires that $T \ge 4$.
+The TOJ bias correction requires that $T \ge 6$.
 
+# Functions
 
-## `nemoment`
+The **panelhetero** package provides the following functions:
 
-`nemoment` implements the naive estimation for the moments without bias-correction.
-The parameters are the means, variances, and correlations:
+- `nemoment()`: The naive estimation of the moments of 
+the heterogeneous mean, the heterogeneous autocovariance, and 
+the heterogeneous autocorrelation without bias correction 
+- `hpjmoment()`: The HPJ bias-corrected estimation of the moments of 
+the heterogeneous mean, the heterogeneous autocovariance, and 
+the heterogeneous autocorrelation
+- `tojmoment()`: The TOJ bias-corrected estimation of the moments of 
+the heterogeneous mean, the heterogeneous autocovariance, and 
+the heterogeneous autocorrelation
+- `neecdf()`: The naive empirical CDF estimation without bias correction 
+- `hpjecdf()`: The HPJ bias-corrected empirical CDF estimation
+- `tojecdf()`: The TOJ bias-corrected empirical CDF estimation
+- `nekd()`: The naive kernel density estimation without bias correction
+- `hpjkd()`: The HPJ bias-corrected kernel density estimation
+- `tojkd()`: The TOJ bias-corrected kernel density estimation
 
-$E(\mu_i)$, $E(\gamma_{k,i})$, $E(\rho_{k,i})$,
-$var(\mu_i)$, $var(\gamma_{k,i})$, $var(\rho_{k,i})$,
-$cor(\mu_i, \gamma_{k,i})$, $cor(\mu_i, \rho_{k,i})$, and $cor(\gamma_{k,i}, \rho_{k,i})$.
+Below we discuss the arguments and the returned values of each function.
 
-The usage is `nemoment(data, acov_order = 0, acor_order = 1, R = 1000)` where the arguments are as follows.
+## `nemoment()`
 
-* `data`: $N \times T$ matrix for panel data in which each row is individual time series.
-* `acov_order`: non-negative integer $k$ for the order of the autocovariance.
-The default is `acov_order = 0`.
-* `acor_order`: positive integer $k$ for the order of the autocorrelation. 
-The default is `acor_order = 1`.
-* `R`: positive integer for the number of bootstrap replications.
-The default is `R = 1000`.
+The `nemoment()` function enables to implement the naive estimation of 
+the moments of the heterogeneous quantities without bias correction.
+The parameters of interest are the means, the variances, and the correlations:
 
-The returned value is a list that contains the following elements.
+- $E(\mu_i)$
+- $E(\gamma_{k,i})$
+- $E(\rho_{k,i})$
+- $var(\mu_i)$
+- $var(\gamma_{k,i})$
+- $var(\rho_{k,i})$
+- $cor(\mu_i, \gamma_{k,i})$
+- $cor(\mu_i, \rho_{k,i})$
+- $cor(\gamma_{k,i}, \rho_{k,i})$
 
-* `estimate`: estimates for the parameters without bias-correction
-* `se`: standard errors for the estimators based on the cross-sectional bootstrap
-* `ci`: 95\% confidence intervals for the parameters based on the cross-sectional bootstrap
-* `quantity`: matrix that contains the estimated means, autocovariances, and autocorrelations
-* `acov_order`: the same as the argument
-* `acor_order`: the same as the argument
-* `N`: the number of cross-sectional units
-* `S`: the length of time series
-* `R`: the number of bootstrap replications
+The usage is `nemoment(data, acov_order = 0, acor_order = 1, R = 1000)` with:
 
-Note: The bootstrap procedure depends on random number generation.
-For reproducibility, it is highly recommended to set the seed of random number generator via `set.seed` before implementing `nemoment`.
+- `data`: An $N \times T$ matrix of panel data.
+Each row corresponds to individual time series.
+- `acov_order`: A non-negative integer $k$ of the order of autocovariance.
+Default is 0.
+- `acor_order`: A positive integer $k$ of the order of autocorrelation. 
+Default is 1.
+- `R`: A positive integer of the number of bootstrap repetitions.
+Default is 1000.
 
-## `hpjmoment`
+The function returns a list that contains the following elements:
 
-`hpjmoment` implements the HPJ bias-corrected estimation for the moments.
-The parameters are the same as those of `nemoment`.
-The usage is `hpjmoment(data, acov_order = 0, acor_order = 1, R = 1000)` where the arguments are the same as those of `nemoment`.
-The returned value is a list that contains the same elements as `nemoment`.
+- `estimate`: A vector of the parameter estimates
+- `se`: A vector of the standard errors computed by the cross-sectional bootstrap
+- `ci`: A matrix of the 95\% confidence intervals computed by the cross-sectional bootstrap
+- `quantity`: A matrix of the estimated heterogeneous quantities
+- `acov_order`: The order of autocovariance
+- `acor_order`: The order of autocorrelation
+- `N`: The number of cross-sectional units
+- `S`: The length of time series
+- `R`: The number of bootstrap repetitions
 
-## `tojmoment`
+Note: The bootstrap results depend on random number generation.
+It is highly recommended to use `set.seed()` before `nemoment()`.
+The same comment also applies to the other functions.
 
-`tojmoment` implements the TOJ bias-corrected estimation for the moments.
-The parameters are the same as those of `nemoment`.
-The usage is `tojmoment(data, acov_order = 0, acor_order = 1, R = 1000)` where the arguments are the same as those of `nemoment`.
-The returned value is a list that contains the same elements as `nemoment`.
+## `hpjmoment()`
 
-## `neecdf`
+The `hpjmoment()` function enables to implement the HPJ bias-corrected
+estimation of the moments of the heterogeneous quantities
+The parameters of interest are the same as `nemoment()`.
+The usage is `hpjmoment(data, acov_order = 0, acor_order = 1, R = 1000)` 
+with the same arguments as `nemoment()`.
+The function returns a list that contains the same elements as `nemoment()`.
 
-`neecdf` implements the naive estimation for the empirical CDF without bias-correction.
-The parameters are the CDFs of $\mu_i$, $\gamma_{k,i}$, and $\rho_{k,i}$.
+## `tojmoment()`
 
-The usage is `neecdf(data, acov_order = 0, acor_order = 1, R = 1000, ci = TRUE)` where the arguments are as follows.
+The `tpjmoment()` function enables to implement the TOJ bias-corrected
+estimation of the moments of the heterogeneous quantities
+The parameters of interest are the same as `nemoment()`.
+The usage is `tojmoment(data, acov_order = 0, acor_order = 1, R = 1000)` 
+with the same arguments as `nemoment()`.
+The function returns a list that contains the same elements as `nemoment()`.
 
-* `data`: $N \times T$ matrix for panel data in which each row is individual time series.
-* `acov_order`: non-negative integer $k$ for the order of autocovariance.
-The default is `acov_order = 0`.
-* `acor_order`: positive integer $k$ for the order of autocorrelation. 
-The default is `acor_order = 1`.
-* `R`: positive integer for the number of bootstrap replications.
-The default is `R = 1000`.
-* `ci`: bool for the confidence interval.
-The default is TRUE.
+## `neecdf()`
 
-The returned value is a list that contains the following elements.
+The `neecdf()` function enables to implement the naive empirical CDF estimation
+without bias correction.
+The parameters of interest are the CDF of $\mu_i$, that of $\gamma_{k,i}$, 
+and that of $\rho_{k,i}$.
 
-* `mean`: graph of the empirical CDF estimation for the mean generated by `stat_function` in **ggplot2**
-* `acov`: graph of the empirical CDF estimation for the autocovariance generated by `stat_function` in **ggplot2**
-* `acor`: graph of the empirical CDF estimation for the autocorrelation generated by `stat_function` in **ggplot2**
-* `mean_func`: function that returns naive empirical CDF estimates for the mean
-* `acov_func`: function that returns naive empirical CDF estimates for the autocovariance
-* `acor_func`: function that returns naive empirical CDF estimates for the autocorrelation
-* `mean_ci_func`: function that returns 95\% bootstrap confidence interval for naive empirical CDF estimates for the mean
-* `acov_ci_func`: function that returns 95\% bootstrap confidence interval for naive empirical CDF estimates for the autocovariance
-* `acor_ci_func`: function that returns 95\% bootstrap confidence interval for naive empirical CDF estimates for the autocorrelation
-* `quantity`: matrix that contains the estimated means, autocovariances, and autocorrelations
-* `acov_order`: the same as the argument
-* `acor_order`: the same as the argument
-* `N`: the number of cross-sectional units
-* `S`: the length of time series
-* `R`: the number of bootstrap replications
+The usage is `neecdf(data, acov_order = 0, acor_order = 1, R = 1000, ci = TRUE)` with:
 
-Note: In each graph, x-axis limits are set as the minium and maximum of the estimated quantities (e.g. the estimated means).
+- `data`: An $N \times T$ matrix of panel data.
+Each row corresponds to individual time series.
+- `acov_order`: A non-negative integer $k$ of the order of autocovariance.
+Default is 0.
+- `acor_order`: A positive integer $k$ of the order of autocorrelation. 
+Default is 1.
+- `R`: A positive integer of the number of bootstrap repetitions.
+Default is 1000.
+- `ci`: A logical whether to compute the 95\% confidence interval for the CDF.
+Default is TRUE.
 
-## `hpjecdf`
+The function returns a list that contains the following elements:
 
-`hpjecdf` implements the HPJ bias-corrected estimation for the empirical CDF.
-The parameters are the same as those of `neecdf`.
-The usage is `hpjecdf(data, acov_order = 0, acor_order = 1, R = 1000, ci = TRUE)` where the arguments are the same as those of `neecdf`.
-The returned value is a list that contains the same elements as `neecdf`.
+- `mean`: A plot of the estimated distribution of the heterogeneous mean made by `ggplot2::stat_function()`
+- `acov`: A plot of the estimated distribution of the heterogeneous autocovariance made by `ggplot2::stat_function()`
+- `acor`: A plot of the estimated distribution of the heterogeneous autocorrelation made by `ggplot2::stat_function()`
+- `mean_func()`: A function that returns the value of the estimated distribution of the heterogeneous mean
+- `acov_func()`: A function that returns the value of the estimated distribution of the heterogeneous autocovariance
+- `acor_func()`: A function that returns the value of the estimated distribution of the heterogeneous autocorrelation
+- `mean_ci_func()`: A function that returns the 95\% confidence interval for the estimated distribution of the heterogeneous mean
+- `acov_ci_func()`: A function that returns the 95\% confidence interval for the estimated distribution of the heterogeneous autocovariance
+- `acor_ci_func()`: A function that returns the 95\% confidence interval for the estimated distribution of the heterogeneous autocorrelation
+- `quantity`: A matrix of the estimated means, autocovariances, and autocorrelations
+- `acov_order`: The order of autocovariance
+- `acor_order`: The order of autocorrelation
+- `N`: The number of cross-sectional units
+- `S`: The length of time series
+- `R`: The number of bootstrap repetitions
 
-Note: Since the HPJ and TOJ bias-corrected CDF estimators may be a non-monotonic function as a consequence of the bias-correction, we convert these bias-corrected estimators into monotonic functions based on **Rearrangement**.
+Note: In each plot, x-axis limits are set to the minimum and maximum of the estimated quantity.
 
-Note: The functions `mean_func`, `acov_func`, and `acor_func` in `hpjecdf` and `tojecdf` are not subject to rearrangement, since **Rearrangement** cannot return functions.
-Nontheless, you can manually use **Rearrangement** to obtain rearranged estimates.
+## `hpjecdf()`
 
-Note: Since the HPJ and TOJ bias-corrected CDF estimates may be smaller than 0 or greater than 1 as a consequence of the bias-correction, we impose the restriction that the estimates are no less than 0 and no larger than 1.
+The `hpjecdf()` function enables to implement the HPJ bias-corrected empirical
+CDF estimation.
+The parameters of interest are the same as `neecdf()`.
+The usage is `hpjecdf(data, acov_order = 0, acor_order = 1, R = 1000, ci = TRUE)` with the same arguments as `neecdf()`.
+The function returns a list that contains the same elements as `neecdf()`.
 
-## `tojecdf`
+Note 1: Due to bias correction, the HPJ bias-corrected empirical distribution estimator may be a non-monotonic function.
+To address this issue, the HPJ bias-corrected estimator is converted into a monotonic function using the **Rearrangement** package.
 
-`tojecdf` implements the TOJ bias-corrected estimation for the empirical CDF.
-The parameters are the same as those of `neecdf`.
-The usage is `tojecdf(data, acov_order = 0, acor_order = 1, R = 1000, ci = TRUE)` where the arguments are the same as those of `neecdf`.
-The returned value is a list that contains the same elements as `neecdf`.
+Note 2: The `mean_func()`, `acov_func()`, and `acor_func()` functions returned by `hpjecdf()` are not subject to rearrangement.
+If desired, you can manually use the **Rearrangement** package to get a rearrangement estimate.
 
-## `nekd`
+Note 3: Due to bias correction, the HPJ or TOJ bias-corrected empirical distribution estimate may be less than 0 or greater than 1.
+We adjust the estimate to be between 0 and 1.
 
-`nekd` implements the naive estimation for the kernel density without bias-correction.
-The parameters are the densities of $\mu_i$, $\gamma_{k,i}$, and $\rho_{k,i}$.
-The function uses the Gaussian kernel for the kernel density estimation.
+## `tojecdf()`
 
-The usage is `nekd(data, acov_order = 0, acor_order = 1, mean_bw = NULL, acov_bw = NULL, acor_bw = NULL)` where the arguments are as follows.
+The `hpjecdf()` function enables to implement the HPJ bias-corrected empirical
+CDF estimation.
+The parameters of interest are the same as `neecdf()`.
+The usage is `hpjecdf(data, acov_order = 0, acor_order = 1, R = 1000, ci = TRUE)` with the same arguments as `neecdf()`.
+The function returns a list that contains the same elements as `neecdf()`.
 
-* `data`: $N \times T$ matrix for panel data in which each row is individual time series.
-* `acov_order`: non-negative integer $k$ for the order of autocovariance.
-The default is `acov_order = 0`.
-* `acor_order`: positive integer $k$ for the order of autocorrelation. 
-The default is `acor_order = 1`.
-* `mean_bw`: bandwidth for the density estimation of the mean.
-The default is selected as the plug-in bandwidth  by `dpik` in **KernSmooth**.
-* `acov_bw`: bandwidth for the density estimation of the autocovariance.
-The default is selected as the plug-in bandwidth  by `dpik` in **KernSmooth**.
-* `acor_bw`: bandwidth for the density estimation of the autocorrelation.
-The default is selected as the plug-in bandwidth  by `dpik` in **KernSmooth**.
+Note: The same comments about `hpjecdf()` also apply to `tojecdf()`.
 
-The returned value is a list that contains the following elements.
+## `nekd()`
 
-* `mean`: graph of the naive kernel density estimation for the mean generated by `stat_function` in **ggplot2**
-* `acov`: graph of the naive kernel density estimation for the autocovariance generated by `stat_function` in **ggplot2**
-* `acor`: graph of the naive kernel density estimation for the autocorrelation generated by `stat_function` in **ggplot2**
-* `mean_func`: function that returns naive kernel density estimates for the mean
-* `acov_func`: function that returns naive kernel density estimates for the autocovariance
-* `acor_func`: function that returns naive kernel density estimates for the autocorrelation
-* `bandwidth`: the selected bandwidths
-* `quantity`: matrix that contains the estimated means, autocovariances, and autocorrelations
-* `acov_order`: the same as the argument
-* `acor_order`: the same as the argument
-* `N`: the number of cross-sectional units
-* `S`: the length of time series
+The `nekd()` function enables to implement the naive kernel density estimation without bias correction using the Gaussian kernel.
+The parameters of the interest are the density function of $\mu_i$, 
+that of $\gamma_{k,i}$, and that of $\rho_{k,i}$.
 
-Note: In each graph, x-axis limits are set as the minium and maximum of the estimated quantities (e.g. the estimated means).
+The usage is `nekd(data, acov_order = 0, acor_order = 1, mean_bw = NULL, acov_bw = NULL, acor_bw = NULL)` with:
 
-## `hpjkd`
+- `data`: An $N \times T$ matrix of panel data.
+Each row corresponds to individual time series.
+- `acov_order`: A non-negative integer $k$ of the order of autocovariance.
+Default is 0.
+- `acor_order`: A positive integer $k$ of the order of autocorrelation. 
+Default is 1.
+- `mean_bw`: The bandwidth used for estimating the density function of the heterogeneous mean.
+Default is NULL, and the plug-in bandwidth is obtained from `KernSmooth::dpik()`.
+- `acov_bw`: The bandwidth used for estimating the density function of the heterogeneous autocovariance.
+Default is NULL, and the plug-in bandwidth is obtained from `KernSmooth::dpik()`.
+- `acor_bw`: The bandwidth used for estimating the density function of the heterogeneous autocorrelation.
+Default is NULL, and the plug-in bandwidth is obtained from `KernSmooth::dpik()`.
 
-`hpjkd` implements the HPJ bias-corrected estimation for the kernel density.
-The parameters are the same as those of `nekd`.
-The usage is `hpjkd(data, acov_order = 0, acor_order = 1, mean_bw = NULL, acov_bw = NULL, acor_bw = NULL)` where the arguments are the same as those of `nekd`.
-The returned value is a list that contains the same elements as `nekd`.
+The function returns a list that contains the following elements:
 
-Note: Since the HPJ and TOJ bias-corrected density estimates may be smaller than 0 as a consequence of the bias-correction, we impose the restriction that the estimates are no less than 0.
+- `mean`: A plot of the estimated density of the heterogeneous mean made by `ggplot2::stat_function()`
+- `acov`: A plot of the estimated density of the heterogeneous autocovariance made by `ggplot2::stat_function()`
+- `acor`: A plot of the estimated density of the heterogeneous autocorrelation made by `ggplot2::stat_function()`
+- `mean_func()`: A function that returns the value of the estimated density of the heterogeneous mean
+- `acov_func()`: A function that returns the value of the estimated density of the heterogeneous autocovariance
+- `acor_func()`: A function that returns the value of the estimated density of the heterogeneous autocorrelation
+- `bandwidth`: A vector of the bandwidths
+- `quantity`: A matrix of the estimated means, autocovariances, and autocorrelations
+- `acov_order`: The order of autocovariance
+- `acor_order`: The order of autocorrelation
+- `N`: The number of cross-sectional units
+- `S`: The length of time series
+
+Note: In each plot, x-axis limits are set to the minimum and maximum of the estimated quantity.
+
+## `hpjkd()`
+
+The `hpjkd()` function enables to implement the HPJ bias-corrected kernel density estimation.
+The parameters of interest are the same as `nekd()`.
+The usage is `hpjkd(data, acov_order = 0, acor_order = 1, mean_bw = NULL, acov_bw = NULL, acor_bw = NULL)` with the same arguments as `nekd()`.
+The function returns a list that contains the same elements as `nekd()`.
+
+Note: Due to bias correction, the HPJ bias-corrected density estimate may be less than 0.
+The estimate is adjusted so that it is not less than 0.
 
 ## `tojkd`
 
-`tojkd` implements the TOJ bias-corrected estimation for the kernel density.
-The parameters are the same as those of `nekd`.
-The usage is `tojkd(data, acov_order = 0, acor_order = 1, mean_bw = NULL, acov_bw = NULL, acor_bw = NULL)` where the arguments are the same as those of `nekd`.
-The returned value is a list that contains the same elements as `nekd`.
+The `tojkd()` function enables to implement the TOJ bias-corrected kernel density estimation.
+The parameters of interest are the same as `nekd()`.
+The usage is `tojkd(data, acov_order = 0, acor_order = 1, mean_bw = NULL, acov_bw = NULL, acor_bw = NULL)` with the same arguments as `nekd()`.
+The function returns a list that contains the same elements as `nekd()`.
 
-## Example
+Note: The same comment about `hpjkd()` also applies to `tojkd()`.
 
-We illustrate the use of **panelhetero** through the following simple example.
-We generate simulated data based on AR(1) model with heterogeneous random coefficients.
+# Examples
 
-```{r, eval = TRUE}
+The following simple example illustrates the use of the **panelhetero** package.
 
-set.seed(101)
-
-# sample sizes
-N <- 300
-S <- 50
-
-# heterogeneous random coefficients
-c <- rnorm(N, mean = 0, sd = 1)
-phi <- rbeta(N, shape1 = 2, shape2 = 5)
-sigma <- rbeta(N, shape1 = 2, shape2 = 5) + 0.5
-
-# initializing N * (T + 1) data matrix including intial values
-y <- matrix(0, nrow = N, ncol = S + 1)
-
-# generated by AR(1) model
-for(i in 1:N) {
-  
-  # unobserved initial value
-  y[i,1] <- rnorm(1, mean = c[i], sd = sigma[i])
-  
-  for(t in 2:(S+1)) {
-    y[i, t] <- (1 - phi[i]) * c[i] + phi[i] * y[i, t-1] + 
-      sqrt((1 - phi[i])^2 * sigma[i]^2) * rnorm(1, mean = 0, sd = 1)
-  }
-}
-
-# N * T data matrix
-y <- y[, -1]
+To begin with, install the following packages:
+```{r, eval = FALSE}
+# install.packages("devtools") # if necessary
+# install.packages("ggplot2")  # if necessary
+devtools::install_github("tkhdyanagi/panelhetero", build_vignettes = TRUE)
 ```
 
-We can estimate the moments of the heterogeneous mean, autocovariance, and autocorrelation via `nemoment`, `hpjmoment`, and `tojmoment`.
-For example, we can implement the HPJ bias-corrected estimation for the moments as follows.
+Then, using an internal function `panelhetero:::simulation()`,
+generate artificial data from an AR(1) model with random coefficients as follows.
 
 ```{r, eval = TRUE}
-library("panelhetero")
+set.seed(1)
 
-set.seed(101)
-
-r1 <- hpjmoment(data = y, acov_order = 0, acor_order = 1)
-
-r1$estimate
-
-r1$se
-
-r1$ci
+y <- panelhetero:::simulation(N = 300, S = 50)
 ```
 
-We can also implement the empirical CDF estimation and the kernel density estimation via `neecdf`, `hpjecdf`, `tojecdf`, `nekd`, `hpjkd`, and `tojkd`.
-For example, we can estimate the density of $\mu_i$ based on the HPJ bias-corrected kernel density estimation as follows.
+The `nemoment()`, `hpjmoment()`, `tojmoment()` functions enable to estimate
+the moments of the heterogeneous quantities.
+For example, you can implement the HPJ bias-corrected estimation as follows.
 
 ```{r, eval = TRUE}
-r2 <- hpjkd(data = y, acov_order = 0, acor_order = 1)
+set.seed(1)
 
-r2$mean
+result1 <- panelhetero::hpjmoment(data = y, acov_order = 0, acor_order = 1)
+result1$estimate
+result1$se
+result1$ci
 ```
 
-The graph is plotted via **ggplot2**, so that we can customize it through standard commands for **ggplot2** (e.g., customizing the title, background, axes, and labels).
+The `neecdf()`, `hpjecdf()`, `tojecdf()` functions enable to implement the empirical CDF estimation.
+For example, you can implement the HPJ bias-corrected empirical CDF estimation with:
+
+```{r, eval = TRUE}
+result2 <- panelhetero::hpjecdf(data = y, 
+                                acov_order = 0, 
+                                acor_order = 1,
+                                R = 100,
+                                ci = FALSE)
+result2$mean
+```
+
+The `nekd()`, `hpjkd()`, `tojkd()` functions enable to implement the kernel density estimation.
+For example, you can implement the HPJ bias-corrected kernel density estimation with:
+
+```{r, eval = TRUE}
+result3 <- panelhetero::hpjkd(data = y, acov_order = 0, acor_order = 1)
+result3$mean
+```
+
+Each function makes this type of figure using the **ggplot2** package.
+You can customize it via standard commands for the **ggplot2** package.
 For example, we can customize the title and the theme as follows.
 
 ```{r, eval = TRUE}
-library(ggplot2)
-
-r2$mean + ggtitle("The density of the mean") + theme_classic()
+result3$mean + 
+  ggplot2::ggtitle("") + 
+  ggplot2::theme_classic()
 ```
 
-Also, `neecdf`, `hpjecdf`, `tojecdf`, `nekd`, `hpjkd`, and `tojkd` return the functions `mean_func`, `acov_func`, and `acor_func` that return values of the estimated functions.
-By using these functions, you can plot graphs on your own.
-For example, the graph of the HPJ bias-corrected density for the mean can be plotted as follows.
+The `neecdf()`, `hpjecdf()`, `tojecdf()`, `nekd()`, `hpjkd()`, and `tojkd()`
+functions return the `mean_func()`, `acov_func()`, and `acor_func()` functions 
+that return the estimated CDFs and the estimated density functions.
+Using these functions, you can make figures by yourself.
+For example, you can make a figure of the HPJ bias-corrected density
+for the heterogeneous mean as follows.
 
 ```{r, eval = TRUE}
-ggplot(data = data.frame(x = c(-3.5, 3.5)), aes(x = x)) + 
-  stat_function(fun = r2$mean_func) + ggtitle("The density of the mean")
+ggplot2::ggplot(data = data.frame(x = c(-3.5, 3.5)), ggplot2::aes(x = x)) + 
+  ggplot2::stat_function(fun = result3$mean_func) + 
+  ggplot2::ggtitle("")
 ```
 
-This usage is useful especially when you would like to plot a graph with a specified range or when you would like to overlay several graphs.
-
-## See also
-[ggplot2](https://cran.r-project.org/web/packages/ggplot2/index.html),
-[KernSmooth](https://cran.r-project.org/web/packages/KernSmooth/index.html),
-[Rearrangement](https://cran.r-project.org/web/packages/Rearrangement/index.html),
-
-
-## References
+# References
 
 Ryo Okui, Takahide Yanagi (2019): ["Panel data analysis with heterogeneous dynamics", Journal of Econometrics, 212(2), 451-475.](https://doi.org/10.1016/j.jeconom.2019.04.036)
 

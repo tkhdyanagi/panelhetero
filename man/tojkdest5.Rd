@@ -2,7 +2,7 @@
 % Please edit documentation in R/densitytoj.R
 \name{tojkdest5}
 \alias{tojkdest5}
-\title{computing TOJ kernel density estimate for T equivalent to 5 modulo 6}
+\title{Compute TOJ kernel density estimate for T equivalent to 5 modulo 6}
 \usage{
 tojkdest5(
   x,
@@ -24,38 +24,41 @@ tojkdest5(
 )
 }
 \arguments{
-\item{x}{point at which the density is estimated}
+\item{x}{An evaluation point}
 
-\item{X}{vector of original cross-sectional data}
+\item{X}{A vector of cross-sectional data}
 
-\item{X21}{vector of half-panel cross-sectional data based on time series 1 ~ floor(T/2)}
+\item{X21}{A vector of half-panel cross-sectional data 21}
 
-\item{X22}{vector of half-panel cross-sectional data based on time series (floor(T/2) + 1) ~ T}
+\item{X22}{A vector of half-panel cross-sectional data 22}
 
-\item{X23}{vector of half-panel cross-sectional data based on time series 1 ~ ceiling(T/2)}
+\item{X23}{A vector of half-panel cross-sectional data 23}
 
-\item{X24}{vector of half-panel cross-sectional data based on time series (ceiling(T/2) + 1) ~ T}
+\item{X24}{A vector of half-panel cross-sectional data 24}
 
-\item{X31}{vector of one-third-panel cross-sectional data based on time series 1 ~ floor(T/3)}
+\item{X31}{A vector of third-panel cross-sectional data 31}
 
-\item{X32}{vector of one-third-panel cross-sectional data based on time series (floor(T/3) + 1) ~ (2 * floor(T/3) + 1)}
+\item{X32}{A vector of third-panel cross-sectional data 32}
 
-\item{X33}{vector of one-third-panel cross-sectional data based on time series (2 * ceiling(T/3)) ~ T}
+\item{X33}{A vector of third-panel cross-sectional data 33}
 
-\item{X34}{vector of one-third-panel cross-sectional data based on time series 1 ~ ceiling(T/3)}
+\item{X34}{A vector of third-panel cross-sectional data 34}
 
-\item{X35}{vector of one-third-panel cross-sectional data based on time series (ceiling(T/3) + 1) ~ (2 * floor(T/3) + 1)}
+\item{X35}{A vector of third-panel cross-sectional data 35}
 
-\item{X36}{vector of one-third-panel cross-sectional data based on time series (2 * ceiling(T/3)) ~ T}
+\item{X36}{A vector of third-panel cross-sectional data 36}
 
-\item{X37}{vector of one-third-panel cross-sectional data based on time series 1 ~ ceiling(T/3)}
+\item{X37}{A vector of third-panel cross-sectional data 37}
 
-\item{X38}{vector of one-third-panel cross-sectional data based on time series (ceiling(T/3) + 1) ~ (2 * ceiling(T/3))}
+\item{X38}{A vector of third-panel cross-sectional data 38}
 
-\item{X39}{vector of one-third-panel cross-sectional data based on time series (2 * ceiling(T/3) + 1) ~ T}
+\item{X39}{A vector of third-panel cross-sectional data 39}
 
-\item{h}{bandwidth}
+\item{h}{A scalar of bandwidth}
+}
+\value{
+A vector of kernel density estimates
 }
 \description{
-computing TOJ kernel density estimate for T equivalent to 5 modulo 6
+Compute TOJ kernel density estimate for T equivalent to 5 modulo 6
 }

@@ -2,17 +2,20 @@
 % Please edit documentation in R/density.R
 \name{kdest}
 \alias{kdest}
-\title{computing kernel density estimate}
+\title{Compute kernel density estimates}
 \usage{
 kdest(x, X, h)
 }
 \arguments{
-\item{x}{point at which the density is estimated}
+\item{x}{An evaluation point}
 
-\item{X}{vector of cross-sectional data}
+\item{X}{A vector of cross-sectional data}
 
-\item{h}{bandwidth}
+\item{h}{A scalar of bandwidth}
+}
+\value{
+A vector of kernel density estimates
 }
 \description{
-computing kernel density estimate
+Compute kernel density estimates
 }

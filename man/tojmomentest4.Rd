@@ -2,15 +2,15 @@
 % Please edit documentation in R/momenttoj.R
 \name{tojmomentest4}
 \alias{tojmomentest4}
-\title{computing TOJ bias-corrected estimate for T equivalent to 4 modulo 6}
+\title{Compute TOJ bias-corrected estimates for T equivalent to 4 modulo 6}
 \usage{
 tojmomentest4(quantity, indices)
 }
 \arguments{
-\item{quantity}{N * (3 * 12) matrix of the means, autocovariances, autocorrelations}
+\item{quantity}{An N times (3 times 12) matrix of the estimated quantities}
 
-\item{indices}{indices for bootstrap replications}
+\item{indices}{A vector of indices for bootstrap repetitions}
 }
 \description{
-computing TOJ bias-corrected estimate for T equivalent to 4 modulo 6
+Compute TOJ bias-corrected estimates for T equivalent to 4 modulo 6
 }

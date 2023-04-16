@@ -2,7 +2,7 @@
 % Please edit documentation in R/densitytoj.R
 \name{tojkd}
 \alias{tojkd}
-\title{TOJ bias-corrected kernel density estimation for heterogeneity in panel data}
+\title{The TOJ bias-corrected kernel density estimation}
 \usage{
 tojkd(
   data,
@@ -14,37 +14,56 @@ tojkd(
 )
 }
 \arguments{
-\item{data}{matrix of panel data in which each row is individual time series}
+\item{data}{A matrix of panel data.
+Each row corresponds to individual time series.}
 
-\item{acov_order}{non-negative integer for the order of the autocovariance}
+\item{acov_order}{A non-negative integer of the order of autocovariance.
+Default is 0.}
 
-\item{acor_order}{positive integer for the order of the autocorrelation}
+\item{acor_order}{A positive integer of the order of autocorrelation.
+Default is 1.}
 
-\item{mean_bw}{bandwidth for the mean}
+\item{mean_bw}{A scalar of bandwidth used for the estimation of
+the denisty of mean.
+Default is NULL, and the plug-in bandwidth is used.}
 
-\item{acov_bw}{bandwidth for the autocovariance}
+\item{acov_bw}{A scalar of bandwidth used for the estimation of
+the denisty of autocovariance.
+Default is NULL, and the plug-in bandwidth is used.}
 
-\item{acor_bw}{bandwidth for the autocorrelation}
+\item{acor_bw}{A scalar of bandwidth used for the estimation of
+the denisty of autocorrelation.
+Default is NULL, and the plug-in bandwidth is used.}
 }
 \value{
-list that contains the following elements.
-\item{mean}{graph of the TOJ bias-corrected kernel density estimation for the mean}
-\item{acov}{graph of the TOJ bias-corrected kernel density estimation for the autocovariance}
-\item{acor}{graph of the TOJ bias-corrected kernel density estimation for the autocorrelation}
-\item{mean_func}{function that returns TOJ bias-corrected kernel density estimates for the mean}
-\item{acov_func}{function that returns TOJ bias-corrected kernel density estimates for the autocovariance}
-\item{acor_func}{function that returns TOJ bias-corrected kernel density estimates for the autocorrelation}
-\item{bandwidth}{vector of the selected bandwidths}
-\item{quantity}{matrix that contains the estimated quantities}
-\item{acov_order}{the same as the argument}
-\item{acor_order}{the same as the argument}
-\item{N}{the number of cross-sectional units}
-\item{S}{the length of time series}
+A list that contains the following elements:
+\item{mean}{A plot of the corresponding density}
+\item{acov}{A plot of the corresponding density}
+\item{acor}{A plot of the corresponding density}
+\item{mean_func}{A function that returns the corresponding density}
+\item{acov_func}{A function that returns the corresponding density}
+\item{acor_func}{A function that returns the corresponding density}
+\item{bandwidth}{A Vector of the bandwidths}
+\item{quantity}{A matrix of the estimated heterogeneous quantities}
+\item{acov_order}{The order of autocovariance}
+\item{acor_order}{The order of autocorrelation}
+\item{N}{The number of cross-sectional units}
+\item{S}{The length of time series}
 }
 \description{
-\code{tojkd} implements the TOJ bias-corrected estimation of
-the kernel density for the heterogeneous mean, autocovariance,
-and autocorrelation.
-The procedure is proposed in Okui and Yanagi (2019).
-See the package vignette via \code{vignette("panelhetero")} for details.
+The `tojkd()` function enables to implement the TOJ bias-corrected kernel
+density estimation for the heterogeneous mean, the autocovariance,
+and the autocorrelation.
+The method is developed by Okui and Yanagi (2020).
+For more details, see the package vignette with `vignette("panelhetero")`.
+}
+\examples{
+data <- panelhetero:::simulation(N = 300, S = 50)
+panelhetero::tojkd(data = data)
+
+}
+\references{
+Okui, R. and Yanagi, T., 2020.
+Kernel estimation for panel data with heterogeneous dynamics.
+The Econometrics Journal, 23(1), pp.156-175.
 }

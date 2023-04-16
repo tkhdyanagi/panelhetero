@@ -2,37 +2,37 @@
 % Please edit documentation in R/ecdftoj.R
 \name{tojecdfest2}
 \alias{tojecdfest2}
-\title{computing TOJ empirical CDF estimate for T equivalent to 2 modulo 6}
+\title{Compute TOJ empirical CDF estimate for T equivalent to 2 modulo 6}
 \usage{
 tojecdfest2(x, X, X21, X22, X31, X32, X33, X34, X35, X36, X37, X38, X39)
 }
 \arguments{
-\item{x}{point at which the CDF is estimated}
+\item{x}{An evaluation point}
 
-\item{X}{vector of original cross-sectional data}
+\item{X}{A vector of original cross-sectional data}
 
-\item{X21}{vector of half-panel cross-sectional data based on time series 1 ~ T/2}
+\item{X21}{A vector of half-panel cross-sectional data 1}
 
-\item{X22}{vector of half-panel cross-sectional data based on time series (T/2 + 1) ~ T}
+\item{X22}{A vector of half-panel cross-sectional data 2}
 
-\item{X31}{vector of one-third-panel cross-sectional data based on time series 1 ~ floor(T/3)}
+\item{X31}{A vector of third-panel cross-sectional data 1}
 
-\item{X32}{vector of one-third-panel cross-sectional data based on time series (floor(T/3) + 1) ~ (2 * floor(T/3) + 1)}
+\item{X32}{A vector of third-panel cross-sectional data 2}
 
-\item{X33}{vector of one-third-panel cross-sectional data based on time series (2 * ceiling(T/3)) ~ T}
+\item{X33}{A vector of third-panel cross-sectional data 3}
 
-\item{X34}{vector of one-third-panel cross-sectional data based on time series 1 ~ ceiling(T/3)}
+\item{X34}{A vector of third-panel cross-sectional data 4}
 
-\item{X35}{vector of one-third-panel cross-sectional data based on time series (ceiling(T/3) + 1) ~ (2 * floor(T/3) + 1)}
+\item{X35}{A vector of third-panel cross-sectional data 5}
 
-\item{X36}{vector of one-third-panel cross-sectional data based on time series (2 * ceiling(T/3)) ~ T}
+\item{X36}{A vector of third-panel cross-sectional data 6}
 
-\item{X37}{vector of one-third-panel cross-sectional data based on time series 1 ~ ceiling(T/3)}
+\item{X37}{A vector of third-panel cross-sectional data 7}
 
-\item{X38}{vector of one-third-panel cross-sectional data based on time series (ceiling(T/3) + 1) ~ (2 * ceiling(T/3))}
+\item{X38}{A vector of third-panel cross-sectional data 8}
 
-\item{X39}{vector of one-third-panel cross-sectional data based on time series (2 * ceiling(T/3) + 1) ~ T}
+\item{X39}{A vector of third-panel cross-sectional data 9}
 }
 \description{
-computing TOJ empirical CDF estimate for T equivalent to 2 modulo 6
+Compute TOJ empirical CDF estimate for T equivalent to 2 modulo 6
 }

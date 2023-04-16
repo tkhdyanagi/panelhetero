@@ -2,15 +2,18 @@
 % Please edit documentation in R/basic.R
 \name{acov}
 \alias{acov}
-\title{computing the autocovariance of time series data}
+\title{Compute the autocovariance of time series}
 \usage{
 acov(y, acov_order)
 }
 \arguments{
-\item{y}{vector of time series data}
+\item{y}{A vector of time series}
 
-\item{acov_order}{non-negative integer for the order of the autocovariance}
+\item{acov_order}{A non-negative integer of the order of autocovariance}
+}
+\value{
+A scalar of the autocovariance
 }
 \description{
-computing the autocovariance of time series data
+Compute the autocovariance of time series
 }

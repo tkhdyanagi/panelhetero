@@ -2,15 +2,18 @@
 % Please edit documentation in R/basic.R
 \name{acor}
 \alias{acor}
-\title{computing the autocorrelation of time series data}
+\title{Compute the autocorrelation of time series}
 \usage{
 acor(y, acor_order)
 }
 \arguments{
-\item{y}{vector of time series data}
+\item{y}{A vector of time series}
 
-\item{acor_order}{positive integer for the order of the autocorrelation}
+\item{acor_order}{A positive integer of the order of autocorrelation}
+}
+\value{
+A scalar of the autocorrelation
 }
 \description{
-computing the autocorrelation of time series data
+Compute the autocorrelation of time series
 }

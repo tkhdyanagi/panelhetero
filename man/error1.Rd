@@ -2,19 +2,19 @@
 % Please edit documentation in R/error.R
 \name{error1}
 \alias{error1}
-\title{function 1 to handle errors}
+\title{Error handling 1}
 \usage{
 error1(data, acov_order, acor_order, R)
 }
 \arguments{
-\item{data}{matrix of panel data in which each row is individual time series}
+\item{data}{A matrix of panel data}
 
-\item{acov_order}{non-negative integer for the order of the autocovariance}
+\item{acov_order}{A non-negative integer of the order of autocovariance}
 
-\item{acor_order}{positive integer for the order of the autocorrelation}
+\item{acor_order}{A positive integer of the order of autocorrelation}
 
-\item{R}{positive integer for the number of bootstrap replications}
+\item{R}{A positive integer of the number of bootstrap repetitions}
 }
 \description{
-function 1 to handle errors
+Error handling 1
 }

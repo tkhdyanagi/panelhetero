@@ -2,15 +2,15 @@
 % Please edit documentation in R/ecdfhpj.R
 \name{hpj1_boot}
 \alias{hpj1_boot}
-\title{computing bootstrap HPJ empirical CDF estimate for odd T}
+\title{Compute bootstrap HPJ empirical CDF estimate for odd T}
 \usage{
 hpj1_boot(quantity, indices)
 }
 \arguments{
-\item{quantity}{N * 3 matrix of estimates}
+\item{quantity}{An N * 3 matrix of estimates}
 
-\item{indices}{indices for bootstrap replications}
+\item{indices}{A vector of indices for bootstrap repetitions}
 }
 \description{
-computing bootstrap HPJ empirical CDF estimate for odd T
+Compute bootstrap HPJ empirical CDF estimate for odd T
 }

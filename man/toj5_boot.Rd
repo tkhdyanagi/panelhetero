@@ -2,15 +2,15 @@
 % Please edit documentation in R/ecdftoj.R
 \name{toj5_boot}
 \alias{toj5_boot}
-\title{computing bootstrap TOJ empirical CDF estimate for even T}
+\title{Compute bootstrap TOJ empirical CDF estimate for T equivalent to 5 modulo 6}
 \usage{
 toj5_boot(quantity, indices)
 }
 \arguments{
 \item{quantity}{N * 14 matrix of estimates}
 
-\item{indices}{indices for bootstrap replications}
+\item{indices}{A vector of indices for bootstrap repetitions}
 }
 \description{
-computing bootstrap TOJ empirical CDF estimate for even T
+Compute bootstrap TOJ empirical CDF estimate for T equivalent to 5 modulo 6
 }

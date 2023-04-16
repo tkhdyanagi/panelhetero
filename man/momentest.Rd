@@ -2,15 +2,15 @@
 % Please edit documentation in R/moment.R
 \name{momentest}
 \alias{momentest}
-\title{computing estimates for the moments}
+\title{Compute the estimates of the moments}
 \usage{
 momentest(quantity, indices)
 }
 \arguments{
-\item{quantity}{N * 3 matrix of the means, autocovariances, autocorrelations}
+\item{quantity}{An N * 3 matrix of the estimated quantities}
 
-\item{indices}{indices for bootstrap replications}
+\item{indices}{A vector of indices for bootstrap repetitions}
 }
 \description{
-computing estimates for the moments
+Compute the estimates of the moments
 }

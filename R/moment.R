@@ -1,117 +1,147 @@
-#' Estimation of moments for heterogeneity in panel data without bias-correction
+#' The naive estimation of the moments
 #'
-#' \code{nemoment} implements the naive estimation of the moments
-#' for the heterogeneous mean, autocovariance, and autocorrelation.
-#' The procedure is proposed in Okui and Yanagi (2019).
-#' See the package vignette via \code{vignette("panelhetero")} for details.
+#' The `nemoment()` function enables to implement the naive estimation of
+#' the moments of the heterogeneous mean, the heterogeneous autocovariance,
+#' and the heterogeneous autocorrelation.
+#' The method is developed by Okui and Yanagi (2019).
+#' For more details, see the package vignette with `vignette("panelhetero")`.
 #'
-#' @param data matrix of panel data in which each row is individual time series
-#' @param acov_order non-negative integer for the order of the autocovariance
-#' @param acor_order positive integer for the order of the autocorrelation
-#' @param R positive integer for the number of bootstrap replications
+#' @param data A matrix of panel data.
+#' Each row corresponds to individual time series.
+#' @param acov_order A non-negative integer of the order of autocovariance.
+#' Default is 0.
+#' @param acor_order A positive integer of the order of autocorrelation
+#' Default is 1.
+#' @param R A positive integer of the number of bootstrap repetitions.
+#' Default is 1000.
 #'
-#' @importFrom boot boot
-#' @importFrom stats na.omit quantile sd
+#' @return A list that contains the following elements.
+#' \item{estimate}{A vector of the parameter estimates}
+#' \item{se}{A vector of the standard errors}
+#' \item{ci}{A matrix of the 95 percent confidence intervals}
+#' \item{quantity}{A matrix of the estimated heterogeneous quantities}
+#' \item{acov_order}{The order of autocovariance}
+#' \item{acor_order}{The order of autocovariance}
+#' \item{N}{The number of cross-sectional units}
+#' \item{S}{The length of time series}
+#' \item{R}{The number of bootstrap repetitions}
 #'
-#' @return list that contains the following elements.
-#' \item{estimate}{vector of estimates of the parameters}
-#' \item{se}{vector of standard errors of the estimators}
-#' \item{ci}{matrix of 95 percent confidence intervals of the parameters}
-#' \item{quantity}{matrix that contains the estimated quantities}
-#' \item{acov_order}{the same as the argument}
-#' \item{acor_order}{the same as the argument}
-#' \item{N}{the number of cross-sectional units}
-#' \item{S}{the length of time series}
-#' \item{R}{the number of bootstrap replications}
+#' @examples
+#' data <- panelhetero:::simulation(N = 300, S = 50)
+#' panelhetero::nemoment(data = data)
+#'
+#' @references Okui, R. and Yanagi, T., 2019.
+#' Panel data analysis with heterogeneous dynamics.
+#' Journal of Econometrics, 212(2), pp.451-475.
 #'
 #' @export
 #'
-nemoment <- function(data, acov_order = 0, acor_order = 1, R = 1000) {
+nemoment <- function(data,
+                     acov_order = 0,
+                     acor_order = 1,
+                     R = 1000) {
 
-  # handling errors
+  # Error handling
+
   error1(data = data, acov_order = acov_order, acor_order = acor_order, R = R)
 
-  # omitting NA
-  data <- na.omit(data)
+  # Omit NA
+  data <- stats::na.omit(data)
 
-  # sample sizes
+  # Sample size
   N <- nrow(data)
   S <- ncol(data)
 
-  # estimated means, autocovariances, autocovariances
+  # Estimated means, autocovariances, autocovariances
   mean_est <- rowMeans(data)
   acov_est <- apply(data, MARGIN = 1, acov, acov_order = acov_order)
   acor_est <- apply(data, MARGIN = 1, acor, acor_order = acor_order)
   equantity <- cbind(mean_est, acov_est, acor_est)
 
-  # naive estimation with bootstrap
-  bootstrap <- boot(data = equantity, statistic = momentest, R = R)
+  # Naive estimation with bootstrap
+  bootstrap <- boot::boot(data = equantity, statistic = momentest, R = R)
 
-  # estimate
+  # Estimates
   estimate <- bootstrap$t0
-  names(estimate) <- c("E(mean)", "E(acov)", "E(acor)",
-                       "var(mean)", "var(acov)", "var(acor)",
-                       "cor(mean, acov)", "cor(mean, acor)", "cor(acov, acor)")
 
-  # standard errors
-  se <- apply(bootstrap$t, MARGIN = 2, sd)
-  names(se) <- c("E(mean)", "E(acov)", "E(acor)",
-                 "var(mean)", "var(acov)", "var(acor)",
-                 "cor(mean, acov)", "cor(mean, acor)", "cor(acov, acor)")
+  # Standard errors
+  se <- apply(bootstrap$t, MARGIN = 2, stats::sd)
 
-  # confidence intervals
+  # Confidence intervals
   temp <- t(t(bootstrap$t) - bootstrap$t0)
-  quantiles <- apply(temp, MARGIN = 2, quantile, probs = c(0.025, 0.975))
+  quantiles <- apply(temp,
+                     MARGIN = 2,
+                     stats::quantile,
+                     probs = c(0.025, 0.975))
   ci <- cbind(estimate + quantiles[1, ], estimate + quantiles[2, ])
-  rownames(ci) <- c("E(mean)", "E(acov)", "E(acor)",
-                    "var(mean)", "var(acov)", "var(acor)",
-                    "cor(mean, acov)", "cor(mean, acor)", "cor(acov, acor)")
+
+  # Names
+  names(estimate) <- names(se) <- rownames(ci) <-
+    c("E(mean)", "E(acov)", "E(acor)",
+      "var(mean)", "var(acov)", "var(acor)",
+      "cor(mean, acov)", "cor(mean, acor)", "cor(acov, acor)")
+
   colnames(ci) <- c("95% CI lower", "95% CI upper")
 
   # result
-  quantity <- cbind(mean_est, acov_est, acor_est)
-  colnames(quantity) <- c("mean", "autocovariance", "autocorrelation")
+  quantity <- cbind(mean_est,
+                    acov_est,
+                    acor_est)
 
-  result <- list(estimate = estimate, se = se, ci = ci,
-                 quantity = quantity, acov_order = acov_order,
-                 acor_order = acor_order, N = N, S = S, R = R)
+  colnames(quantity) <- c("mean",
+                          "autocovariance",
+                          "autocorrelation")
 
-  return(result)
+  return(list(estimate = estimate,
+              se = se,
+              ci = ci,
+              quantity = quantity,
+              acov_order = acov_order,
+              acor_order = acor_order,
+              N = N,
+              S = S,
+              R = R)
+  )
 
 }
 
-
-#' computing estimates for the moments
+#' Compute the estimates of the moments
 #'
-#' @param quantity N * 3 matrix of the means, autocovariances, autocorrelations
-#' @param indices indices for bootstrap replications
-#' @importFrom stats var cor
+#' @param quantity An N * 3 matrix of the estimated quantities
+#' @param indices A vector of indices for bootstrap repetitions
 #'
 momentest <- function(quantity, indices) {
 
-  # estimated quantities
+  # Estimated quantities
   mean_est <- quantity[indices, 1]
   acov_est <- quantity[indices, 2]
   acor_est <- quantity[indices, 3]
 
-  # means
+  # Means
   mean_mean <- mean(mean_est)
   acov_mean <- mean(acov_est)
   acor_mean <- mean(acor_est)
 
-  # variances
-  mean_var <- var(mean_est)
-  acov_var <- var(acov_est)
-  acor_var <- var(acor_est)
+  # Variances
+  mean_var <- stats::var(mean_est)
+  acov_var <- stats::var(acov_est)
+  acor_var <- stats::var(acor_est)
 
-  # correlations
-  mean_acov_cor <- cor(mean_est, acov_est)
-  mean_acor_cor <- cor(mean_est, acor_est)
-  acov_acor_cor <- cor(acov_est, acor_est)
+  # Correlations
+  mean_acov_cor <- stats::cor(mean_est, acov_est)
+  mean_acor_cor <- stats::cor(mean_est, acor_est)
+  acov_acor_cor <- stats::cor(acov_est, acor_est)
 
-  # estimates
-  estimate <- c(mean_mean, acov_mean, acor_mean, mean_var, acov_var, acor_var, mean_acov_cor, mean_acor_cor, acov_acor_cor)
-
-  return(estimate)
+  # Return
+  return(c(mean_mean,
+           acov_mean,
+           acor_mean,
+           mean_var,
+           acov_var,
+           acor_var,
+           mean_acov_cor,
+           mean_acor_cor,
+           acov_acor_cor)
+  )
 
 }

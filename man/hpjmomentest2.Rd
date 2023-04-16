@@ -2,15 +2,15 @@
 % Please edit documentation in R/momenthpj.R
 \name{hpjmomentest2}
 \alias{hpjmomentest2}
-\title{computing HPJ bias-corrected estimates of the moments for odd T}
+\title{Compute HPJ bias-corrected estimates of the moments for odd T}
 \usage{
 hpjmomentest2(quantity, indices)
 }
 \arguments{
-\item{quantity}{N * 3 matrix of the estimated means, autocovariances, autocorrelations}
+\item{quantity}{An N * 3 matrix of the estimated quantities}
 
-\item{indices}{indices for bootstrap replications}
+\item{indices}{A vector of indices for bootstrap repetitions}
 }
 \description{
-computing HPJ bias-corrected estimates of the moments for odd T
+Compute HPJ bias-corrected estimates of the moments for odd T
 }

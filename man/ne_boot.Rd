@@ -2,15 +2,15 @@
 % Please edit documentation in R/ecdf.R
 \name{ne_boot}
 \alias{ne_boot}
-\title{computing bootstrap empirical CDF estimate}
+\title{Compute bootstrap empirical CDF estimate}
 \usage{
 ne_boot(quantity, indices)
 }
 \arguments{
-\item{quantity}{N * 1 matrix of estimate}
+\item{quantity}{An N * 1 matrix of estimates}
 
-\item{indices}{indices for bootstrap replications}
+\item{indices}{A vector of indices for bootstrap repetitions}
 }
 \description{
-computing bootstrap empirical CDF estimate
+Compute bootstrap empirical CDF estimate
 }

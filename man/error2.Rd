@@ -2,17 +2,17 @@
 % Please edit documentation in R/error.R
 \name{error2}
 \alias{error2}
-\title{function 2 to handle errors}
+\title{Error handling 2}
 \usage{
 error2(data, acov_order, acor_order)
 }
 \arguments{
-\item{data}{matrix of panel data in which each row is individual time series}
+\item{data}{A matrix of panel data}
 
-\item{acov_order}{non-negative integer for the order of the autocovariance}
+\item{acov_order}{A non-negative integer of the order of autocovariance}
 
-\item{acor_order}{positive integer for the order of the autocorrelation}
+\item{acor_order}{A positive integer of the order of autocorrelation}
 }
 \description{
-function 2 to handle errors
+Error handling 2
 }

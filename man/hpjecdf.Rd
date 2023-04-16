@@ -2,43 +2,62 @@
 % Please edit documentation in R/ecdfhpj.R
 \name{hpjecdf}
 \alias{hpjecdf}
-\title{HPJ bias-corrected empirical CDF estimation for heterogeneity in panel data}
+\title{The HPJ bias-corrected empirical CDF estimation}
 \usage{
 hpjecdf(data, acov_order = 0, acor_order = 1, R = 1000, ci = TRUE)
 }
 \arguments{
-\item{data}{matrix of panel data in which each row is individual time series}
+\item{data}{A matrix of panel data.
+Each row corresponds to individual time series.}
 
-\item{acov_order}{non-negative integer for the order of the autocovariance}
+\item{acov_order}{A non-negative integer of the order of autocovariance.
+Default is 0.}
 
-\item{acor_order}{positive integer for the order of the autocorrelation}
+\item{acor_order}{A positive integer of the order of autocorrelation.
+Default is 1.}
 
-\item{R}{positive integer for the number of bootstrap replications}
+\item{R}{A positive integer of the number of bootstrap repetitions.
+Default is 1000.}
 
-\item{ci}{bool for the confidence interval}
+\item{ci}{A logical whether to estimate the confidence interval.
+Default is TRUE.}
 }
 \value{
-list that contains the following elements.
-\item{mean}{graph of the HPJ bias-corrected empirical CDF estimation for the mean with rearrangement}
-\item{acov}{graph of the HPJ bias-corrected empirical CDF estimation for the autocovariance with rearrangement}
-\item{acor}{graph of the HPJ bias-corrected empirical CDF estimation for the autocorrelation with rearrangement}
-\item{mean_func}{function that returns HPJ bias-corrected empirical CDF estimates for the mean without rearrangement}
-\item{acov_func}{function that returns HPJ bias-corrected empirical CDF estimates for the autocovariance without rearrangement}
-\item{acor_func}{function that returns HPJ bias-corrected empirical CDF estimates for the autocorrelation without rearrangement}
-\item{mean_ci_func}{function that returns 95 percent bootstrap confidence interval for HPJ empirical CDF estimates for the mean}
-\item{acov_ci_func}{function that returns 95 percent bootstrap confidence interval for HPJ empirical CDF estimates for the autocovariance}
-\item{acor_ci_func}{function that returns 95 percent bootstrap confidence interval for HPJ empirical CDF estimates for the autocorrelation}
-\item{quantity}{matrix that contains the estimated quantities}
-\item{acov_order}{the same as the argument}
-\item{acor_order}{the same as the argument}
-\item{N}{the number of cross-sectional units}
-\item{S}{the length of time series}
-\item{R}{the number of bootstrap replications}
+A list that contains the following elements.
+\item{mean}{A plot of the corresponding CDF}
+\item{acov}{A plot of the corresponding CDF}
+\item{acor}{A plot of the corresponding CDF}
+\item{mean_func}{A function that returns the corresponding CDF}
+\item{acov_func}{A function that returns the corresponding CDF}
+\item{acor_func}{A function that returns the corresponding CDF}
+\item{mean_ci_func}{A function that returns the 95 percent confidence
+interval for the corresponding CDF}
+\item{acov_ci_func}{A function that returns the 95 percent confidence
+interval for the corresponding CDF}
+\item{acor_ci_func}{A function that returns the 95 percent confidence
+interval for the corresponding CDF}
+\item{quantity}{A matrix of the estimated heterogeneous quantities}
+\item{acov_order}{The order of autocovariance}
+\item{acor_order}{The order of autocorrelation}
+\item{N}{The number of cross-sectional units}
+\item{S}{The length of time series}
+\item{R}{The number of bootstrap repetitions}
 }
 \description{
-\code{hpjecdf} implements the HPJ bias-corrected estimation of
-the empirical CDF for the heterogeneous mean, autocovariance,
-and autocorrelation.
-The procedure is proposed in Okui and Yanagi (2019).
-See the package vignette via \code{vignette("panelhetero")} for details.
+The `hpjecdf()` function enables to implement the HPJ bias-corrected
+estimation of the cumulative distribution function (CDF) of
+the heterogeneous mean, the heterogeneous autocovariance, and
+the heterogeneous autocorrelation.
+The method is developed by Okui and Yanagi (2019).
+For more details, see the package vignette with `vignette("panelhetero")`.
+}
+\examples{
+data <- panelhetero:::simulation(N = 300, S = 50)
+panelhetero::hpjecdf(data = data)
+
+}
+\references{
+Okui, R. and Yanagi, T., 2019.
+Panel data analysis with heterogeneous dynamics.
+Journal of Econometrics, 212(2), pp.451-475.
 }

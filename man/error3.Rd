@@ -2,23 +2,26 @@
 % Please edit documentation in R/error.R
 \name{error3}
 \alias{error3}
-\title{function 3 to handle errors}
+\title{Error handling 3}
 \usage{
 error3(data, acov_order, acor_order, mean_bw, acov_bw, acor_bw)
 }
 \arguments{
-\item{data}{matrix of panel data in which each row is individual time series}
+\item{data}{A matrix of panel data}
 
-\item{acov_order}{non-negative integer for the order of the autocovariance}
+\item{acov_order}{A non-negative integer of the order of autocovariance}
 
-\item{acor_order}{positive integer for the order of the autocorrelation}
+\item{acor_order}{A positive integer of the order of autocorrelation}
 
-\item{mean_bw}{bandwidth for the mean}
+\item{mean_bw}{A scalar of bandwidth used for the estimation of
+the denisty of mean}
 
-\item{acov_bw}{bandwidth for the autocovariance}
+\item{acov_bw}{A scalar of bandwidth used for the estimation of
+the denisty of autocovariance}
 
-\item{acor_bw}{bandwidth for the autocorrelation}
+\item{acor_bw}{A scalar of bandwidth used for the estimation of
+the denisty of autocorrelation}
 }
 \description{
-function 3 to handle errors
+Error handling 3
 }

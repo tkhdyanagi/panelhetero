@@ -2,21 +2,24 @@
 % Please edit documentation in R/densityhpj.R
 \name{hpjkdest1}
 \alias{hpjkdest1}
-\title{computing HPJ kernel density estimate for even T}
+\title{Compute HPJ kernel density estimates for even T}
 \usage{
 hpjkdest1(x, X, X1, X2, h)
 }
 \arguments{
-\item{x}{point at which the density is estimated}
+\item{x}{An evaluation point}
 
-\item{X}{vector of original cross-sectional data}
+\item{X}{A vector of cross-sectional data}
 
-\item{X1}{vector of half-panel cross-sectional data based on time series 1 ~ T/2}
+\item{X1}{A vector of half-panel cross-sectional data 1}
 
-\item{X2}{vector of half-panel cross-sectional data based on time series (T/2 + 1) ~ T}
+\item{X2}{A vector of half-panel cross-sectional data 2}
 
-\item{h}{bandwidth}
+\item{h}{A scalar of bandwidth}
+}
+\value{
+A vector of kenrel density estimates
 }
 \description{
-computing HPJ kernel density estimate for even T
+Compute HPJ kernel density estimates for even T
 }

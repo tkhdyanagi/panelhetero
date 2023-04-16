@@ -2,15 +2,15 @@
 % Please edit documentation in R/ecdf.R
 \name{ecdfest}
 \alias{ecdfest}
-\title{computing empirical CDF estimate}
+\title{Compute empirical CDF estimate}
 \usage{
 ecdfest(x, X)
 }
 \arguments{
-\item{x}{point at which the CDF is estimated}
+\item{x}{An evaluation point}
 
-\item{X}{vector of cross-sectional data}
+\item{X}{A vector of cross-sectional data}
 }
 \description{
-computing empirical CDF estimate
+Compute empirical CDF estimate
 }

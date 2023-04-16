@@ -2,27 +2,30 @@
 % Please edit documentation in R/densitytoj.R
 \name{tojkdest0}
 \alias{tojkdest0}
-\title{computing TOJ kernel density estimate for T equivalent to 0 modulo 6}
+\title{Compute TOJ kernel density estimates for T equivalent to 0 modulo 6}
 \usage{
 tojkdest0(x, X, X21, X22, X31, X32, X33, h)
 }
 \arguments{
-\item{x}{point at which the density is estimated}
+\item{x}{An evaluation point}
 
-\item{X}{vector of original cross-sectional data}
+\item{X}{A vector of cross-sectional data}
 
-\item{X21}{vector of half-panel cross-sectional data based on time series 1 ~ T/2}
+\item{X21}{A vector of half-panel cross-sectional data 21}
 
-\item{X22}{vector of half-panel cross-sectional data based on time series (T/2 + 1) ~ T}
+\item{X22}{A vector of half-panel cross-sectional data 22}
 
-\item{X31}{vector of one-third-panel cross-sectional data based on time series 1 ~ T/3}
+\item{X31}{A vector of third-panel cross-sectional data 31}
 
-\item{X32}{vector of one-third-panel cross-sectional data based on time series (T/3 + 1) ~ 2 * T/3}
+\item{X32}{A vector of third-panel cross-sectional data 32}
 
-\item{X33}{vector of one-third-panel cross-sectional data based on time series 2 * T/3 + 1 ~ T}
+\item{X33}{A vector of third-panel cross-sectional data 33}
 
-\item{h}{bandwidth}
+\item{h}{A scalar of bandwidth}
+}
+\value{
+A vector of kernel density estimates
 }
 \description{
-computing TOJ kernel density estimate for T equivalent to 0 modulo 6
+Compute TOJ kernel density estimates for T equivalent to 0 modulo 6
 }

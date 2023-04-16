@@ -2,19 +2,19 @@
 % Please edit documentation in R/ecdfhpj.R
 \name{hpjecdfest1}
 \alias{hpjecdfest1}
-\title{computing HPJ empirical CDF estimate for even T}
+\title{Compute HPJ bias-corrected empirical CDF estimate for even T}
 \usage{
 hpjecdfest1(x, X, X1, X2)
 }
 \arguments{
-\item{x}{point at which the CDF is estimated}
+\item{x}{An evaluation point}
 
-\item{X}{vector of original cross-sectional data}
+\item{X}{A vector of original cross-sectional data}
 
-\item{X1}{vector of half-panel cross-sectional data based on time series 1 ~ T/2}
+\item{X1}{A vector of half-panel cross-sectional data 1}
 
-\item{X2}{vector of half-panel cross-sectional data based on time series (T/2 + 1) ~ T}
+\item{X2}{A vector of half-panel cross-sectional data 2}
 }
 \description{
-computing HPJ empirical CDF estimate for even T
+Compute HPJ bias-corrected empirical CDF estimate for even T
 }
