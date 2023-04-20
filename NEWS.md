@@ -1,3 +1,5 @@
+# panelhetero (development version)
+
 # panelhetero 1.0.0
 
 * First CRAN version.
