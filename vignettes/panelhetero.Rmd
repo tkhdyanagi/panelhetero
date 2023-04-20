@@ -309,13 +309,13 @@ To begin with, install the following packages:
 devtools::install_github("tkhdyanagi/panelhetero", build_vignettes = TRUE)
 ```
 
-Then, using an internal function `panelhetero:::simulation()`,
+Then, using the `simulation()` function,
 generate artificial data from an AR(1) model with random coefficients as follows.
 
 ```{r, eval = TRUE}
 set.seed(1)
 
-y <- panelhetero:::simulation(N = 300, S = 50)
+y <- panelhetero::simulation(N = 300, S = 50)
 ```
 
 The `nemoment()`, `hpjmoment()`, `tojmoment()` functions enable to estimate

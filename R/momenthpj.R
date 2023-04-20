@@ -15,7 +15,7 @@
 #' @param R A positive integer of the number of bootstrap repetitions.
 #' Default is 1000.
 #'
-#' @return A list that contains the following elements.
+#' @returns A list that contains the following elements.
 #' \item{estimate}{A vector of the parameter estimates}
 #' \item{se}{A vector of the standard errors}
 #' \item{ci}{A matrix of the 95 percent confidence intervals}
@@ -27,7 +27,7 @@
 #' \item{R}{The number of bootstrap repetitions}
 #'
 #' @examples
-#' data <- panelhetero:::simulation(N = 300, S = 50)
+#' data <- panelhetero::simulation(N = 300, S = 50)
 #' panelhetero::hpjmoment(data = data)
 #'
 #' @references Okui, R. and Yanagi, T., 2019.

@@ -1,13 +1,14 @@
 Package: panelhetero
 Type: Package
 Title: Panel Data Analysis with Heterogeneous Dynamics
-Version: 0.3.1
+Version: 1.0.0
 Authors@R: c(
     person("Ryo", "Okui", email = "okuiryo@e.u-tokyo.ac.jp", role = c("aut", "cph")),
     person("Takahide", "Yanagi", email = "yanagi@econ.kyoto-u.ac.jp", role = c("aut", "cre", "cph"), comment = c(ORCID = "https://orcid.org/0000-0003-3975-5518")),
     person("Heejun", "Lee", email = "info.hlee@gmail.com", role = c("aut", "cph")))
-Description: Tools for estimating the degree of heterogeneity across cross-sectional units in the panel data analysis.
-    The methods are developed by Okui and Yanagi (2019) <https://doi.org/10.1016/j.jeconom.2019.04.036> and Okui and Yanagi (2020) <https://doi.org/10.1093/ectj/utz019>.
+Description: Understanding the dynamics of potentially heterogeneous variables is important in statistical applications.
+    This package provides tools for estimating the degree of heterogeneity across cross-sectional units in the panel data analysis.
+    The methods are developed by Okui and Yanagi (2019) <doi:10.1016/j.jeconom.2019.04.036> and Okui and Yanagi (2020) <doi:10.1093/ectj/utz019>.
 Depends: R (>= 3.6)
 Encoding: UTF-8
 LazyData: true

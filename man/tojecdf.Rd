@@ -52,8 +52,8 @@ The method is developed by Okui and Yanagi (2019).
 For more details, see the package vignette with `vignette("panelhetero")`.
 }
 \examples{
-data <- panelhetero:::simulation(N = 300, S = 50)
-panelhetero::tojecdf(data = data)
+data <- panelhetero::simulation(N = 300, S = 50)
+panelhetero::tojecdf(data = data, R = 50)
 
 }
 \references{

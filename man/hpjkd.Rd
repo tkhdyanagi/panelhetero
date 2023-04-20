@@ -58,7 +58,7 @@ The method is developed by Okui and Yanagi (2020).
 For more details, see the package vignette with `vignette("panelhetero")`.
 }
 \examples{
-data <- panelhetero:::simulation(N = 300, S = 50)
+data <- panelhetero::simulation(N = 300, S = 50)
 panelhetero::hpjkd(data = data)
 
 }

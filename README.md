@@ -14,7 +14,13 @@ are developed by the following papers:
 
 # Intsallation
 
-Run the following code:
+Run:
+
+``` r
+install.packages("panelhetero")
+```
+
+or
 
 ``` r
 # install.packages("devtools") # if necessary

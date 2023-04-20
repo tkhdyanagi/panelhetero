@@ -2,7 +2,7 @@
 % Please edit documentation in R/simulation.R
 \name{simulation}
 \alias{simulation}
-\title{Generate simulated data}
+\title{Generate artificial data}
 \usage{
 simulation(N, S)
 }
@@ -15,9 +15,11 @@ simulation(N, S)
 An N times S matrix of panel data
 }
 \description{
-Generate simulated data
+The `simulation()` function enables to generate artificial data from an
+AR(1) model with random coefficients.
+The function is used in the package vignette.
 }
 \examples{
-panelhetero:::simulation(N = 300, S = 50)
+panelhetero::simulation(N = 300, S = 50)
 
 }

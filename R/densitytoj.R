@@ -37,7 +37,7 @@
 #' \item{S}{The length of time series}
 #'
 #' @examples
-#' data <- panelhetero:::simulation(N = 300, S = 50)
+#' data <- panelhetero::simulation(N = 300, S = 50)
 #' panelhetero::tojkd(data = data)
 #'
 #' @references Okui, R. and Yanagi, T., 2020.

@@ -38,8 +38,8 @@
 #' \item{R}{The number of bootstrap repetitions}
 #'
 #' @examples
-#' data <- panelhetero:::simulation(N = 300, S = 50)
-#' panelhetero::neecdf(data = data)
+#' data <- panelhetero::simulation(N = 300, S = 50)
+#' panelhetero::neecdf(data = data, R = 50)
 #'
 #' @references Okui, R. and Yanagi, T., 2019.
 #' Panel data analysis with heterogeneous dynamics.

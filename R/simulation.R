@@ -1,4 +1,8 @@
-#' Generate simulated data
+#' Generate artificial data
+#'
+#' The `simulation()` function enables to generate artificial data from an
+#' AR(1) model with random coefficients.
+#' The function is used in the package vignette.
 #'
 #' @param N The number of cross-sectional units
 #' @param S The length of time series
@@ -6,7 +10,9 @@
 #' @returns An N times S matrix of panel data
 #'
 #' @examples
-#' panelhetero:::simulation(N = 300, S = 50)
+#' panelhetero::simulation(N = 300, S = 50)
+#'
+#' @export
 #'
 simulation <- function(N, S) {
 

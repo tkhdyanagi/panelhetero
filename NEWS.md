@@ -1,3 +1,7 @@
+# panelhetero 1.0.0
+
+* First CRAN version.
+
 # panelhetero 0.3.1
 
 * The codes have been refined without changing the main functionality.
