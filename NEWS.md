@@ -1,4 +1,8 @@
-# panelhetero 1.0.1
+# panelhetero 1.0.0.9001 (Development)
+
+* Modified README.
+
+# panelhetero 1.0.0.9000 (Development)
 
 * Modified Roxygen 2 comments, vignette index entry, and LICENSE.
 

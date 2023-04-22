@@ -12,8 +12,6 @@ are developed by the following papers:
 - [Okui and Yanagi (2020) “Kernel estimation for panel data with
   heterogeneous dynamics”](https://doi.org/10.1093/ectj/utz019).
 
-For more details, see <https://tkhdyanagi.github.io/panelhetero/>.
-
 # Intsallation
 
 Run:
@@ -28,6 +26,10 @@ or
 # install.packages("devtools") # if necessary
 devtools::install_github("tkhdyanagi/panelhetero", build_vignettes = TRUE)
 ```
+
+# Website
+
+- <https://tkhdyanagi.github.io/panelhetero/>
 
 # References
 
