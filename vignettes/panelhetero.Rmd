@@ -9,7 +9,7 @@ date: "April 2023"
 #rmarkdown::render("C:/Users/tyanagi/Desktop/panelhetero.Rmd", encoding = "utf8")
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{**panelhetero**}
+  %\VignetteIndexEntry{Getting Started with the panelhetero Package}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -302,7 +302,11 @@ Note: The same comment about `hpjkd()` also applies to `tojkd()`.
 
 The following simple example illustrates the use of the **panelhetero** package.
 
-To begin with, install the following packages:
+To begin with, install the package with:
+```{r, eval = FALSE}
+install.packages("panelhetero")
+```
+Or
 ```{r, eval = FALSE}
 # install.packages("devtools") # if necessary
 # install.packages("ggplot2")  # if necessary
@@ -314,7 +318,6 @@ generate artificial data from an AR(1) model with random coefficients as follows
 
 ```{r, eval = TRUE}
 set.seed(1)
-
 y <- panelhetero::simulation(N = 300, S = 50)
 ```
 
@@ -323,8 +326,6 @@ the moments of the heterogeneous quantities.
 For example, you can implement the HPJ bias-corrected estimation as follows.
 
 ```{r, eval = TRUE}
-set.seed(1)
-
 result1 <- panelhetero::hpjmoment(data = y, acov_order = 0, acor_order = 1)
 result1$estimate
 result1$se

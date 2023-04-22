@@ -319,6 +319,8 @@ hpjkd <- function(data,
 #'
 #' @returns A vector of kenrel density estimates
 #'
+#' @noRd
+#'
 hpjkdest1 <- Vectorize(FUN = function(x, X, X1, X2, h) {
 
   # Sample size
@@ -350,6 +352,8 @@ hpjkdest1 <- Vectorize(FUN = function(x, X, X1, X2, h) {
 #' @param h A scalar of bandwidth
 #'
 #' @returns A vector of kernel density estimates
+#'
+#' @noRd
 #'
 hpjkdest2 <- Vectorize(FUN = function(x, X, X1, X2, X3, X4, h) {
 

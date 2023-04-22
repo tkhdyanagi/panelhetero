@@ -24,3 +24,4 @@ Imports:
     Rearrangement,
     stats
 VignetteBuilder: knitr
+URL: https://tkhdyanagi.github.io/panelhetero/

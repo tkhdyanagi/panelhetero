@@ -1,10 +1,6 @@
-## Resubmission
-This is a resubmission. 
-In this version we have:
+## Update
 
-* Modified the Description in the DESCRIPTION.
-
-* Used foo::f instead of foo:::f, that is, removed one colon.
+Modified Roxygen 2 comments, vignette index entry, and LICENSE.
 
 ## R CMD check results
 

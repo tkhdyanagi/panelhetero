@@ -1090,6 +1090,8 @@ tojkd <- function(data,
 #'
 #' @returns A vector of kernel density estimates
 #'
+#' @noRd
+#'
 tojkdest0 <- Vectorize(FUN = function(x, X, X21, X22, X31, X32, X33, h) {
 
   # Sample size
@@ -1135,6 +1137,8 @@ tojkdest0 <- Vectorize(FUN = function(x, X, X21, X22, X31, X32, X33, h) {
 #' @param h A scalar of bandwidth
 #'
 #' @returns A vector of kernel density estimates
+#'
+#' @noRd
 #'
 tojkdest1 <- Vectorize(FUN = function(x,
                                       X,
@@ -1204,6 +1208,8 @@ tojkdest1 <- Vectorize(FUN = function(x,
 #'
 #' @returns A vector of kernel density estimates
 #'
+#' @noRd
+#'
 tojkdest2 <- Vectorize(FUN = function(x,
                                       X,
                                       X21,
@@ -1264,6 +1270,8 @@ tojkdest2 <- Vectorize(FUN = function(x,
 #'
 #' @returns A vector of kernel density estimates
 #'
+#' @noRd
+#'
 tojkdest3 <- Vectorize(FUN = function(x,
                                       X,
                                       X21,
@@ -1318,6 +1326,8 @@ tojkdest3 <- Vectorize(FUN = function(x,
 #' @param h A scalar of bandwidth
 #'
 #' @returns A vector of kernel density estimates
+#'
+#' @noRd
 #'
 tojkdest4 <- Vectorize(FUN = function(x,
                                       X,
@@ -1384,6 +1394,8 @@ tojkdest4 <- Vectorize(FUN = function(x,
 #' @param h A scalar of bandwidth
 #'
 #' @returns A vector of kernel density estimates
+#'
+#' @noRd
 #'
 tojkdest5 <- Vectorize(FUN = function(x,
                                       X,

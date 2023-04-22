@@ -110,6 +110,8 @@ nemoment <- function(data,
 #' @param quantity An N * 3 matrix of the estimated quantities
 #' @param indices A vector of indices for bootstrap repetitions
 #'
+#' @noRd
+#'
 momentest <- function(quantity, indices) {
 
   # Estimated quantities

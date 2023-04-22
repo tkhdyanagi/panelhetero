@@ -181,6 +181,8 @@ nekd <- function(data,
 #'
 #' @returns A vector of kernel density estimates
 #'
+#' @noRd
+#'
 kdest <- Vectorize(FUN = function(x, X, h) {
 
   N <- length(X)

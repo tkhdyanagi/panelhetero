@@ -191,6 +191,8 @@ hpjmoment <- function(data,
 #' @param quantity An N * 3 matrix of the estimated quantities
 #' @param indices A vector of indices for bootstrap repetitions
 #'
+#' @noRd
+#'
 hpjmomentest1 <- function(quantity, indices) {
 
   # Estimated quantities
@@ -287,6 +289,8 @@ hpjmomentest1 <- function(quantity, indices) {
 #'
 #' @param quantity An N * 3 matrix of the estimated quantities
 #' @param indices A vector of indices for bootstrap repetitions
+#'
+#' @noRd
 #'
 hpjmomentest2 <- function(quantity, indices) {
 

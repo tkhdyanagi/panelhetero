@@ -623,6 +623,8 @@ tojmoment <- function(data, acov_order = 0, acor_order = 1, R = 1000) {
 #' @param quantity An N times (3 times 6) matrix of the estimated quantities
 #' @param indices A vector of indices for bootstrap repetitions
 #'
+#' @noRd
+#'
 tojmomentest0 <- function(quantity, indices) {
 
   # Estimated quantities
@@ -787,6 +789,8 @@ tojmomentest0 <- function(quantity, indices) {
 #'
 #' @param quantity An N times (3 times 14) matrix of the estimated quantities
 #' @param indices A vector of indices for bootstrap repetitions
+#'
+#' @noRd
 #'
 tojmomentest1 <- function(quantity, indices) {
 
@@ -1131,6 +1135,8 @@ tojmomentest1 <- function(quantity, indices) {
 #' @param quantity An N times (3 times 12) matrix of the estimated quantities
 #' @param indices A vector of indices for bootstrap repetitions
 #'
+#' @noRd
+#'
 tojmomentest2 <- function(quantity, indices) {
 
   # Estimated quantities
@@ -1430,6 +1436,8 @@ tojmomentest2 <- function(quantity, indices) {
 #' @param quantity An N times (3 times 8) matrix of the estimated quantities
 #' @param indices A vector of indices for bootstrap repetitions
 #'
+#' @noRd
+#'
 tojmomentest3 <- function(quantity, indices) {
 
   # Estimated quantities
@@ -1637,6 +1645,8 @@ tojmomentest3 <- function(quantity, indices) {
 #'
 #' @param quantity An N times (3 times 12) matrix of the estimated quantities
 #' @param indices A vector of indices for bootstrap repetitions
+#'
+#' @noRd
 #'
 tojmomentest4 <- function(quantity, indices) {
 
@@ -1936,6 +1946,8 @@ tojmomentest4 <- function(quantity, indices) {
 #'
 #' @param quantity An N times (3 times 14) matrix of the estimated quantities
 #' @param indices A vector of indices for bootstrap repetitions
+#'
+#' @noRd
 #'
 tojmomentest5 <- function(quantity, indices) {
 

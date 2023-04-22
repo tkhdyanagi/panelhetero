@@ -7,6 +7,8 @@
 #'
 #' @returns NULL
 #'
+#' @noRd
+#'
 error1 <- function(data, acov_order, acor_order, R) {
 
   # Error for data
@@ -38,6 +40,8 @@ error1 <- function(data, acov_order, acor_order, R) {
 #' @param acor_order A positive integer of the order of autocorrelation
 #'
 #' @returns NULL
+#'
+#' @noRd
 #'
 error2 <- function(data, acov_order, acor_order) {
 
@@ -71,6 +75,8 @@ error2 <- function(data, acov_order, acor_order) {
 #' the denisty of autocorrelation
 #'
 #' @returns NULL
+#'
+#' @noRd
 #'
 error3 <- function(data, acov_order, acor_order, mean_bw, acov_bw, acor_bw) {
 

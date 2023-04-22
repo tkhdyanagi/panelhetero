@@ -2790,6 +2790,8 @@ tojecdf <- function(data,
 #' @param X32 A vector of third-panel cross-sectional data 2
 #' @param X33 A vector of third-panel cross-sectional data 3
 #'
+#' @noRd
+#'
 tojecdfest0 <- Vectorize(FUN = function(x, X, X21, X22, X31, X32, X33) {
 
   # Estimates
@@ -2830,6 +2832,8 @@ tojecdfest0 <- Vectorize(FUN = function(x, X, X21, X22, X31, X32, X33) {
 #' @param X37 A vector of third-panel cross-sectional data 7
 #' @param X38 A vector of third-panel cross-sectional data 8
 #' @param X39 A vector of third-panel cross-sectional data 9
+#'
+#' @noRd
 #'
 tojecdfest1 <- Vectorize(FUN = function(x,
                                         X,
@@ -2893,6 +2897,8 @@ tojecdfest1 <- Vectorize(FUN = function(x,
 #' @param X38 A vector of third-panel cross-sectional data 8
 #' @param X39 A vector of third-panel cross-sectional data 9
 #'
+#' @noRd
+#'
 tojecdfest2 <- Vectorize(FUN = function(x,
                                         X,
                                         X21,
@@ -2947,6 +2953,8 @@ tojecdfest2 <- Vectorize(FUN = function(x,
 #' @param X32 A vector of third-panel cross-sectional data 2
 #' @param X33 A vector of third-panel cross-sectional data 3
 #'
+#' @noRd
+#'
 tojecdfest3 <- Vectorize(FUN = function(x,
                                         X,
                                         X21,
@@ -2995,6 +3003,8 @@ tojecdfest3 <- Vectorize(FUN = function(x,
 #' @param X37 A vector of third-panel cross-sectional data 7
 #' @param X38 A vector of third-panel cross-sectional data 8
 #' @param X39 A vector of third-panel cross-sectional data 9
+#'
+#' @noRd
 #'
 tojecdfest4 <- Vectorize(FUN = function(x,
                                         X,
@@ -3056,6 +3066,8 @@ tojecdfest4 <- Vectorize(FUN = function(x,
 #' @param X38 A vector of third-panel cross-sectional data 8
 #' @param X39 A vector of third-panel cross-sectional data 9
 #'
+#' @noRd
+#'
 tojecdfest5 <- Vectorize(FUN = function(x,
                                         X,
                                         X21,
@@ -3107,6 +3119,8 @@ tojecdfest5 <- Vectorize(FUN = function(x,
 #' @param quantity An N * 6 matrix of estimates
 #' @param indices A vector of indices for bootstrap repetitions
 #'
+#' @noRd
+#'
 toj0_boot <- function(quantity, indices) {
 
   # Estimates
@@ -3133,6 +3147,8 @@ toj0_boot <- function(quantity, indices) {
 #'
 #' @param quantity An N * 14 matrix of estimates
 #' @param indices A vector of indices for bootstrap repetitions
+#'
+#' @noRd
 #'
 toj1_boot <- function(quantity, indices) {
 
@@ -3170,6 +3186,8 @@ toj1_boot <- function(quantity, indices) {
 #' @param quantity An N * 12 matrix of estimates
 #' @param indices A vector of indices for bootstrap repetitions
 #'
+#' @noRd
+#'
 toj2_boot <- function(quantity, indices) {
 
   # Estimates
@@ -3205,6 +3223,8 @@ toj2_boot <- function(quantity, indices) {
 #' @param quantity An N * 8 matrix of estimates
 #' @param indices A vector of indices for bootstrap repetitions
 #'
+#' @noRd
+#'
 toj3_boot <- function(quantity, indices) {
 
   # Estimates
@@ -3234,6 +3254,8 @@ toj3_boot <- function(quantity, indices) {
 #'
 #' @param quantity An N * 12 matrix of estimates
 #' @param indices A vector of indices for bootstrap repetitions
+#'
+#' @noRd
 #'
 toj4_boot <- function(quantity, indices) {
 
@@ -3269,6 +3291,8 @@ toj4_boot <- function(quantity, indices) {
 #'
 #' @param quantity N * 14 matrix of estimates
 #' @param indices A vector of indices for bootstrap repetitions
+#'
+#' @noRd
 #'
 toj5_boot <- function(quantity, indices) {
 

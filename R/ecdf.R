@@ -328,6 +328,8 @@ neecdf <- function(data,
 #' @param x An evaluation point
 #' @param X A vector of cross-sectional data
 #'
+#' @noRd
+#'
 ecdfest <- Vectorize(FUN = function(x, X) {
 
   return(mean(X <= x))
@@ -338,6 +340,8 @@ ecdfest <- Vectorize(FUN = function(x, X) {
 #'
 #' @param quantity An N * 1 matrix of estimates
 #' @param indices A vector of indices for bootstrap repetitions
+#'
+#' @noRd
 #'
 ne_boot <- function(quantity, indices) {
 

@@ -1,4 +1,6 @@
-# panelhetero (development version)
+# panelhetero 1.0.1
+
+* Modified Roxygen 2 comments, vignette index entry, and LICENSE.
 
 # panelhetero 1.0.0
 

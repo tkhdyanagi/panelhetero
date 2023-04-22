@@ -5,6 +5,8 @@
 #'
 #' @returns A scalar of the autocovariance
 #'
+#' @noRd
+#'
 acov <- function(y, acov_order) {
 
   # Variable definitions
@@ -28,6 +30,8 @@ acov <- function(y, acov_order) {
 #' @param acor_order A positive integer of the order of autocorrelation
 #'
 #' @returns A scalar of the autocorrelation
+#'
+#' @noRd
 #'
 acor <- function(y, acor_order) {
   acov(y = y, acov_order = acor_order) / acov(y = y, acov_order = 0)

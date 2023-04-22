@@ -788,6 +788,8 @@ hpjecdf <- function(data,
 #' @param X1 A vector of half-panel cross-sectional data 1
 #' @param X2 A vector of half-panel cross-sectional data 2
 #'
+#' @noRd
+#'
 hpjecdfest1 <- Vectorize(FUN = function(x, X, X1, X2) {
 
   # Estimates
@@ -816,6 +818,8 @@ hpjecdfest1 <- Vectorize(FUN = function(x, X, X1, X2) {
 #' @param X3 A vector of half-panel cross-sectional data 3
 #' @param X4 A vector of half-panel cross-sectional data 4
 #'
+#' @noRd
+#'
 hpjecdfest2 <- Vectorize(FUN = function(x, X, X1, X2, X3, X4) {
 
   # Estimates
@@ -841,6 +845,8 @@ hpjecdfest2 <- Vectorize(FUN = function(x, X, X1, X2, X3, X4) {
 #' @param quantity An N * 3 matrix of estimates
 #' @param indices A vector of indices for bootstrap repetitions
 #'
+#' @noRd
+#'
 hpj1_boot <- function(quantity, indices) {
 
   # Estimates
@@ -863,6 +869,8 @@ hpj1_boot <- function(quantity, indices) {
 #'
 #' @param quantity An N * 5 matrix of estimates
 #' @param indices A vector of indices for bootstrap repetitions
+#'
+#' @noRd
 #'
 hpj2_boot <- function(quantity, indices) {
 
